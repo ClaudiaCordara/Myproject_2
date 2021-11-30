@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+
 public class MainMenu : MonoBehaviour {
     // Start is called before the first frame update
+
+
     public void PlayGame() {
+        DeckManager.instance.Shuffle();
         StartCoroutine(CorutineOpenNextLevel());
     }
 
@@ -29,18 +35,37 @@ public class MainMenu : MonoBehaviour {
         SceneManager.LoadScene(4);
     }
 
-
-
     public void ToggleWordsC() {
-        Debug.Log("Toggle C!");
         DeckManager.instance.ToggleWordsC();
+        syncToggleWords();
     }
     public void ToggleWordsG() {
-        Debug.Log("Toggle G!");
         DeckManager.instance.ToggleWordsG();
+        syncToggleWords();
     }
     public void ToggleWordsSC() {
-        Debug.Log("Toggle SC!");
         DeckManager.instance.ToggleWordsSC();
+        syncToggleWords();
+    }
+
+    public void OnValueChanged(float input)
+    {
+        int levelDifficulty = (int)input;
+        DeckManager.instance.SetLevelDifficulty(levelDifficulty);
+    }
+
+    public void syncToggleWords()
+    {
+        if (!DeckManager.instance.allowWordsC & !DeckManager.instance.allowWordsG & !DeckManager.instance.allowWordsSC)
+        {
+            ToggleWordsC();
+            ToggleWordsG();
+            ToggleWordsSC();
+        }
+
+        GameObject.Find("enableCcb").GetComponent<Image>().sprite = Resources.Load<Sprite>("checkbox-"+(DeckManager.instance.allowWordsC?"true":"false"));
+        GameObject.Find("enableGcb").GetComponent<Image>().sprite = Resources.Load<Sprite>("checkbox-" + (DeckManager.instance.allowWordsG ? "true" : "false"));
+        GameObject.Find("enableSCcb").GetComponent<Image>().sprite = Resources.Load<Sprite>("checkbox-" + (DeckManager.instance.allowWordsSC ? "true" : "false"));
+        GameObject.Find("DifficultySlider").GetComponent<Slider>().value = DeckManager.instance.levelDifficulty;
     }
 }

@@ -11,10 +11,14 @@ public class DeckManager : MonoBehaviour
 	public Card[] fulldeck;
 	private string[] Names_hard= new string[52]{"caffe", "cane", "cappello", "caraffa", "case", "castagna", "cavalli", "cavi", "chela", "chiave", "chiavi", "chiodi", "chitarra", "coccinella", "coccodrillo",  "coda",  "collo",  "colombo",  "corda",  "corvo",  "cozza",  "cuccia", "cuore", "cuscino", "gallina", "gambe", "gambero", "gambo", "ganci", "gatto", "ghepardo", "gheriglio", "ghiacciolo", "ghiande", "ghiro", "gobba", "gomitolo", "gomme", "gorilla", "gregge", "guanto", "gufo", "guinzaglio", "scacchiera", "scarpe", "scatola", "scheletro", "schiuma", "scoiattolo", "scopa", "scorpione", "scudo"};
 	private string[] Names_soft= new string[21]{"cellula", "cerotto", "cervello", "ciabatta","cicogna", "cielo", "cigno", "cinghiale", "cintura",  "cipolla", "gelato", "gemelli", "gengiva", "genio", "gigante", "ginocchio", "giraffa", "gnomi", "sceriffo", "sciarpa", "scimmia"};
-	
+
+	public int cardPerDeck = 10;
+	public int deckLength = 73;
+
 	public bool allowWordsC;
 	public bool allowWordsG;
 	public bool allowWordsSC;
+	public int levelDifficulty;
 
 	void Awake () {
         if (instance != null && instance != this) {
@@ -25,16 +29,21 @@ public class DeckManager : MonoBehaviour
         instance = this; 
         DontDestroyOnLoad(this.gameObject);
 
-
 		allowWordsC = (PlayerPrefs.GetInt("GameAllowWordsC", 0)==1);
 		allowWordsG = (PlayerPrefs.GetInt("GameAllowWordsG", 0)==1);
 		allowWordsSC = (PlayerPrefs.GetInt("GameAllowWordsSC", 0)==1);
-    }
+		levelDifficulty = PlayerPrefs.GetInt("GameDifficulty", 0);
+		if (levelDifficulty < 1) {
+			// inizializzazione iniziale a 1 == facile
+			levelDifficulty = 1;
+        }
+
+	}
 	
     // Start is called before the first frame update
     void Start() {
-	    deck = new Card[10];
-        fulldeck = new Card[73];
+	    deck = new Card[cardPerDeck];
+        fulldeck = new Card[deckLength];
 		int index=0;
 		for (int i=0; i<21; i++){
 			Card temp = new Card();
@@ -86,53 +95,45 @@ public class DeckManager : MonoBehaviour
 		    fulldeck[B] = b;
 	    }
 
-		// da eliminare quando mettiamo a posto i pulsanti
-		allowWordsC = true;
-		allowWordsG = true;
-		allowWordsSC = true;
-
-
-		for (int i = 0; i < 11; i++) {
-			deck[i] = fulldeck[i];
-		}
-
-		/*
-		// non funzia
 		int n = 0;
-		int m = 0;
-		while (n < 10 && m < 73) {
-			if (allowWordsC & fulldeck[m].IsC) {
-				deck[n] = fulldeck[m];
+		for (int i = 0; i < deckLength; i++) {
+			if (allowWordsC & fulldeck[i].IsC) {
+				deck[n] = fulldeck[i];
 				n++;
-			} else if (allowWordsG & fulldeck[m].IsG) {
-				deck[n] = fulldeck[m];
+			} else if (allowWordsG & fulldeck[i].IsG) {
+				deck[n] = fulldeck[i];
 				n++;
-			} else if (allowWordsSC & fulldeck[m].IsSC) {
-				deck[n] = fulldeck[m];
+			} else if (allowWordsSC & fulldeck[i].IsSC) {
+				deck[n] = fulldeck[i];
 				n++;
 			}
-			m++;
+
+			if (n > cardPerDeck -1) {
+				break;
+            }
 		}
-		*/
 	}
 
 	public void ToggleWordsC() {
 		allowWordsC = !allowWordsC;
 		PlayerPrefs.SetInt("GameAllowWordsC", allowWordsC?1:0);
+		PlayerPrefs.Save();
 	}
 	public void ToggleWordsG() {
 		allowWordsG = !allowWordsG;
 		PlayerPrefs.SetInt("GameAllowWordsG", allowWordsC?1:0);
+		PlayerPrefs.Save();
 	}
 	public void ToggleWordsSC() {
 		allowWordsSC = !allowWordsSC;
 		PlayerPrefs.SetInt("GameAllowWordsSC", allowWordsC?1:0);
+		PlayerPrefs.Save();
 	}
 
-	
-
-	
-	
+	public void SetLevelDifficulty(int levelDifficulty) {
+		PlayerPrefs.SetInt("GameDifficulty", levelDifficulty);
+		PlayerPrefs.Save();
+	}
 }
 
 [Serializable]

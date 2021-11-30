@@ -34,6 +34,7 @@ public class LevelsScript : MonoBehaviour {
 
     public void OpenLevelAtIndex(int levelNumber) {
         Debug.Log("OPENING LEVEL AT INDEX "+levelNumber);
+        DeckManager.instance.Shuffle();
         StartCoroutine(CorutineOpenLevel(levelNumber));
     }
 
