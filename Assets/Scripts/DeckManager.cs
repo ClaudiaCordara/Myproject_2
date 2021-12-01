@@ -12,6 +12,9 @@ public class DeckManager : MonoBehaviour
 	private string[] Names_hard= new string[53]{"caffe", "cane", "cappello", "caraffa", "case", "castagna", "cavalli", "cavi", "chela", "chiave", "chiavi", "chiodi", "chitarra", "coccinella", "coccodrillo",  "coda",  "collo",  "colombo",  "corda",  "corvo",  "cozza",  "cuccia", "cuore", "cuscino", "gallina", "gambe", "gambero", "gambo", "ganci", "gatto", "ghepardo", "gheriglio", "ghiacciolo", "ghiande", "ghiro", "gobba", "gomitolo", "gomme", "gorilla", "gregge", "guanto", "gufo", "guinzaglio", "scacchi", "scacchiera", "scarpe", "scatola", "scheletro", "schiuma", "scoiattolo", "scopa", "scorpione", "scudo"};
 	private string[] Names_soft= new string[21]{"cellula", "cerotto", "cervello", "ciabatta","cicogna", "cielo", "cigno", "cinghiale", "cintura",  "cipolla", "gelato", "gemelli", "gengiva", "genio", "gigante", "ginocchio", "giraffa", "gnomi", "sceriffo", "sciarpa", "scimmia"};
 
+	private string[] LevelTypeWithDifficultyLow = new string[10]{"A","S","S","S","S","S","S","S","S","S"}; // 10% audio
+	private string[] LevelTypeWithDifficultyMed = new string[10]{"A","A","A","S","S","S","S","S","S","S"}; // 30% audio
+	private string[] LevelTypeWithDifficultyHig = new string[10]{"A","A","A","A","A","S","S","S","S","S"}; // 50% audio
 	public int cardPerDeck = 10;
 	public int deckLength = 74;
 
@@ -55,6 +58,7 @@ public class DeckManager : MonoBehaviour
 			temp.IsSC = Names_soft[i].StartsWith("sc");
 			temp.artwork = Resources.Load<Sprite>(temp.name);
 			temp.clip = Resources.Load<AudioClip>("Audio/" + temp.name);
+			temp.IsAudio = false;
             fulldeck[index] = temp;
             index++;
             //Debug.Log(Names_soft[i].StartsWith("c");
@@ -69,6 +73,7 @@ public class DeckManager : MonoBehaviour
 			temp.IsSC = Names_hard[i].StartsWith("sc");
 			temp.artwork = Resources.Load<Sprite>(temp.name);
 			temp.clip = Resources.Load<AudioClip>("Audio/" + temp.name);
+			temp.IsAudio = false;
 			fulldeck[index] = temp;
 			index++;
 			//Debug.Log(Names_hard[i].StartsWith("c");
@@ -81,10 +86,10 @@ public class DeckManager : MonoBehaviour
 
     public void Shuffle()
     {
-	    int replacements = UnityEngine.Random.Range(100, 1000);
+	    int replacements = UnityEngine.Random.Range(100, 300);
 	    for (int i=0; i < replacements; i++){
-		    int A = UnityEngine.Random.Range(0, deckLength);
-		    int B = UnityEngine.Random.Range(0, deckLength);
+		    int A = UnityEngine.Random.Range(0, deckLength - 1);
+		    int B = UnityEngine.Random.Range(0, deckLength - 1);
 
 		    Card a = fulldeck[A];
 		    Card b = fulldeck[B];
@@ -97,6 +102,11 @@ public class DeckManager : MonoBehaviour
 		    fulldeck[B] = b;
 	    }
 
+		for (int i = 0; i < deckLength; i++) {
+			fulldeck[i].IsAudio = false;
+		}
+
+		// shaping deck
 		int n = 0;
 		for (int i = 0; i < deckLength; i++) {
 			if (allowWordsC & fulldeck[i].IsC) {
@@ -114,6 +124,34 @@ public class DeckManager : MonoBehaviour
 				break;
             }
 		}
+
+
+		// deciding which words are audio
+		for (int i = 0; i < cardPerDeck; i++) {
+			if (levelDifficulty == 1) {
+				deck[i].IsAudio = (LevelTypeWithDifficultyLow[i]=="A");
+			} else if (levelDifficulty == 2) {
+				deck[i].IsAudio = (LevelTypeWithDifficultyMed[i]=="A");
+			} else {
+				deck[i].IsAudio = (LevelTypeWithDifficultyHig[i]=="A");
+			} 
+		}
+
+		// Shuffling again deck
+		replacements = UnityEngine.Random.Range(5, 20);
+	    for (int i=0; i < replacements; i++){
+		    int A = UnityEngine.Random.Range(0, cardPerDeck - 1);
+		    int B = UnityEngine.Random.Range(0, cardPerDeck - 1);
+
+		    Card a = deck[A];
+		    Card b = deck[B];
+		    Card c = deck[A];
+		    a = b;
+		    b = c;
+
+		    deck[A] = a;
+		    deck[B] = b;
+	    }
 	}
 
 	public void ToggleWordsC() {
@@ -149,6 +187,7 @@ public class Card
 	public bool IsC;
 	public bool IsG;
 	public bool IsSC;
+	public bool IsAudio;
 
 }
 
