@@ -86,6 +86,13 @@ public class train_move : MonoBehaviour
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         addCardQuestion();
+
+        PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
+        if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
+            DialogPanel.SetActive(true);
+        } else {
+            DialogPanel.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -141,7 +148,7 @@ public class train_move : MonoBehaviour
             //which direction?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
-            if (Mathf.Abs(x) > Mathf.Abs(y))
+            if ((Mathf.Abs(x) > Mathf.Abs(y)) & startTrain == 0)
             {
                 if (x < 0)//swipe a sinistra
                 {
@@ -180,9 +187,12 @@ public class train_move : MonoBehaviour
         }
     }
 
+    bool lastSwipeWasSoft = false;
     private void DidSwipe(bool isSoft) {
+        lastSwipeWasSoft = isSoft;
         if (_currentCard.soft == isSoft) {
             Debug.Log("DidSwipe! Correct Answer!");
+           
         } else {
             Debug.Log("DidSwipe! Wrong Answer!");
         }
@@ -191,6 +201,15 @@ public class train_move : MonoBehaviour
 
 
     private void DidCompleteQuestion() {
+        DialogPanel.SetActive(true);
+        if (_currentCard.soft == lastSwipeWasSoft) {
+            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
+        } else {
+            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
+        }
+
 
         _currentWordIndex++;
         
@@ -253,20 +272,15 @@ public class train_move : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-
+    bool shouldHideDialog = true;
     public void closeDialog() {
-
-
-
-        Debug.Log("Hide Dialog!");
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
-                // non riesco a prendere 
-                DialogPanel.SetActive(false);
-            } else {
-                PlayerPrefs.SetInt("GameShouldShowTutorial", 0);
+                PlayerPrefs.SetInt("GameShouldHideTutorial", 1);
                 PlayerPrefs.Save();
+                shouldHideDialog = true;
+            } else {
                 DialogPanel.SetActive(false);
             }
         } else {

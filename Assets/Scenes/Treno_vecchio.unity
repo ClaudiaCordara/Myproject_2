@@ -2433,9 +2433,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 884823469}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
+      - m_Target: {fileID: 1004785697}
+        m_TargetAssemblyTypeName: train_move, Assembly-CSharp
+        m_MethodName: closeDialog
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2445,10 +2445,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1078426553}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 884823469}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4428,7 +4428,7 @@ MonoBehaviour:
   ResultsPanel: {fileID: 144282884}
   AnswerImage: {fileID: 797072347}
   AnswerWord: {fileID: 1344169069}
-  DialogPanel: {fileID: 0}
+  DialogPanel: {fileID: 1078426553}
   speed: 5
   end: 2
   _levelID: 0
