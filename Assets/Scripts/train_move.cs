@@ -21,12 +21,12 @@ public class train_move : MonoBehaviour
     //dichiaro variabili a cui associo i 2 path diversi
     public GameObject pathLeftObj; 
     public GameObject pathRightObj;
-    public GameObject ResultsPanel;
 
     public GameObject AnswerImage;
     public GameObject AnswerWord;
 
     public GameObject DialogPanel;
+    public GameObject DialogPanelResult;
     
     public float speed = 2;
     private float distanceTravelled;
@@ -54,6 +54,7 @@ public class train_move : MonoBehaviour
     private bool isDraging = false;
     private bool isLevelComplete = false;
     private bool isPuppetSpeaking = false;
+    private int puppetStatus = 0;
 
     void Awake () {
         _currentWordIndex = 0;
@@ -104,9 +105,23 @@ public class train_move : MonoBehaviour
             nextActionTime += period;
             // execute block of code here
             if (isPuppetSpeaking) {
-                GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+                GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_base");
+                if (puppetStatus == -1) {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_wrong");
+                } else if (puppetStatus == 1) {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_correct");
+                } else {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+                }
             } else {
-                GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+                GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_O");
+                if (puppetStatus == -1) {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_wrong");
+                } else if (puppetStatus == 1) {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_correct");
+                } else {
+                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+                }
             }
             animationStep++;
             if (animationStep%5== 0 || animationStep%4==0) {
@@ -190,33 +205,28 @@ public class train_move : MonoBehaviour
     bool lastSwipeWasSoft = false;
     private void DidSwipe(bool isSoft) {
         lastSwipeWasSoft = isSoft;
-        if (_currentCard.soft == isSoft) {
-            Debug.Log("DidSwipe! Correct Answer!");
-           
+        DialogPanel.SetActive(true);
+       if (_currentCard.soft == isSoft) {
+            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
+            puppetStatus = 1;
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
         } else {
-            Debug.Log("DidSwipe! Wrong Answer!");
+            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
+            puppetStatus = -1;
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
         }
-
+        DialogPanel.SetActive(false);
     }
 
 
     private void DidCompleteQuestion() {
         DialogPanel.SetActive(true);
-        if (_currentCard.soft == lastSwipeWasSoft) {
-            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
-        } else {
-            Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
-        }
 
 
         _currentWordIndex++;
         
 
-        if (_currentWordIndex > 10) {
-            DidCompleteLevel();
-        } else {
+        if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString());
             QuestionLabel.SetText("Domanda "+_currentWordIndex.ToString());  
@@ -226,16 +236,21 @@ public class train_move : MonoBehaviour
     private void DidCompleteLevel() {
         isLevelComplete = true;
         Debug.Log("DidCOMPLETE Level!! "); 
-        ResultsPanel.SetActive(true);
+        DialogPanelResult.SetActive(true);
 
         ScoreLabel.SetText("Punti: "+_levelCurrentScore.ToString());
 
         if (_levelCurrentScore > 8) {
             // 3 stelle
+            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
         } else if (_levelCurrentScore > 6) {
             // 2 stelle
-        } else {
+            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
+        } else if (_levelCurrentScore > 4) {
             // 1 stella
+            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
+        } else {
+            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
         }
 
         GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
@@ -285,6 +300,29 @@ public class train_move : MonoBehaviour
             }
         } else {
              DialogPanel.SetActive(false);
+             if (_currentWordIndex > 9) {
+                DidCompleteLevel();
+            }
         }
+    }
+
+    public void OpenMenu() {
+        StartCoroutine(CorutineOpenMenu());
+    }
+    IEnumerator CorutineOpenMenu() {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
+    }
+
+    public void OpenLevelAtIndex(int levelNumber) {
+        Debug.Log("OPENING LEVEL AT INDEX "+levelNumber);
+        DeckManager.instance.Shuffle();
+        StartCoroutine(CorutineOpenLevel(levelNumber));
+    }
+
+    IEnumerator CorutineOpenLevel(int levelNumber) {
+        yield return new WaitForSeconds(1);
+        GameManager.instance.currentLevel = levelNumber;
+        SceneManager.LoadScene(2);
     }
 }
