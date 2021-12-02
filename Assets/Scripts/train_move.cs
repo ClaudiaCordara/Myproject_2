@@ -26,7 +26,7 @@ public class train_move : MonoBehaviour
     public GameObject AnswerImage;
     public GameObject AnswerWord;
 
-    
+    public GameObject DialogPanel;
     
     public float speed = 2;
     private float distanceTravelled;
@@ -53,7 +53,7 @@ public class train_move : MonoBehaviour
     private Vector2 startTouch, swipeDelta;
     private bool isDraging = false;
     private bool isLevelComplete = false;
-
+    private bool isPuppetSpeaking = false;
 
     void Awake () {
         _currentWordIndex = 0;
@@ -70,8 +70,8 @@ public class train_move : MonoBehaviour
         */
 
     }
+   
 
-    
     void addCardQuestion() {
         _currentCard = DeckManager.instance.deck[_currentWordIndex];
         Debug.Log(_currentCard.name);
@@ -83,15 +83,33 @@ public class train_move : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         addCardQuestion();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private float nextActionTime = 0.0f;
+    public float period = 0.2f;
+    int animationStep = 0;
+    void Update() {
+        if (Time.time > nextActionTime ) {
+            nextActionTime += period;
+            // execute block of code here
+            if (isPuppetSpeaking) {
+                GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+            } else {
+                GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+            }
+            animationStep++;
+            if (animationStep%5== 0 || animationStep%4==0) {
+                isPuppetSpeaking = !isPuppetSpeaking;
+            }
+            if (animationStep > 999) { animationStep = 0; }
+        }
+
+
+
         //tap = swipeLeft = swipeRight = false;
         
         #region Standalone Inputs
@@ -233,5 +251,26 @@ public class train_move : MonoBehaviour
             Debug.Log("Gioco non superato! Riprova ");
         }
         SceneManager.LoadScene(2);
+    }
+
+
+    public void closeDialog() {
+
+
+
+        Debug.Log("Hide Dialog!");
+        if (_currentWordIndex == 0) {
+            if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
+                GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
+                // non riesco a prendere 
+                DialogPanel.SetActive(false);
+            } else {
+                PlayerPrefs.SetInt("GameShouldShowTutorial", 0);
+                PlayerPrefs.Save();
+                DialogPanel.SetActive(false);
+            }
+        } else {
+             DialogPanel.SetActive(false);
+        }
     }
 }
