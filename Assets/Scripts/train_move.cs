@@ -68,8 +68,6 @@ public class train_move : MonoBehaviour
 
         ScoreLabel = FindObjectsOfType<TextMeshProUGUI>()[4];
         */
-        addCardQuestion();
-
 
     }
 
@@ -88,6 +86,7 @@ public class train_move : MonoBehaviour
     void Start()
     {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
+        addCardQuestion();
     }
 
     // Update is called once per frame
