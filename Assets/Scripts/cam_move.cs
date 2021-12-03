@@ -25,9 +25,9 @@ public class cam_move : MonoBehaviour
  
     public void Refresh()
     {
-        if(target == null)
+        if (target == null)
         {
-            Debug.LogWarning("Missing target ref !", this);
+            // Debug.LogWarning("Missing target ref !", this);
  
             return;
         }

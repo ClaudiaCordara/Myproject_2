@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
-using UnityEngine.WSA;
+//using UnityEngine.WSA; // crea un probelma nell'esportare il gioco come app
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
 public class train_move : MonoBehaviour
 {
-
-    public TextMeshProUGUI LevelLabel;
-    public TextMeshProUGUI QuestionLabel;
-    public TextMeshProUGUI ScoreLabel;
 
     public Card _currentCard;
 
@@ -60,15 +56,6 @@ public class train_move : MonoBehaviour
         _currentWordIndex = 0;
         _levelID = GameManager.instance.currentLevel;
         _levelPreviusScore = GameManager.instance.getStarsForLevel(_levelID);
-    
-        /*
-        QuestionLabel = FindObjectsOfType<TextMeshProUGUI>()[0];
-        QuestionLabel.SetText("Domanda "+_currentWordIndex.ToString()); 
-        LevelLabel = FindObjectsOfType<TextMeshProUGUI>()[3];
-        LevelLabel.SetText("Livello " + _levelID.ToString());
-
-        ScoreLabel = FindObjectsOfType<TextMeshProUGUI>()[4];
-        */
 
     }
    
@@ -104,23 +91,29 @@ public class train_move : MonoBehaviour
         if (Time.time > nextActionTime ) {
             nextActionTime += period;
             // execute block of code here
-            if (isPuppetSpeaking) {
-                GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_base");
-                if (puppetStatus == -1) {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_wrong");
-                } else if (puppetStatus == 1) {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_correct");
+            if (DialogPanel.activeSelf) {
+                if (isPuppetSpeaking) {
+                    if (puppetStatus == -1) {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_wrong");
+                    } else if (puppetStatus == 1) {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_correct");
+                    } else {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+                    }
                 } else {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+                    if (puppetStatus == -1) {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_wrong");
+                    } else if (puppetStatus == 1) {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_correct");
+                    } else {
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+                    }
                 }
-            } else {
-                GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_O");
-                if (puppetStatus == -1) {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_wrong");
-                } else if (puppetStatus == 1) {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_correct");
+            } else if (DialogPanelResult.activeSelf) {
+                if (isPuppetSpeaking) {
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_base");
                 } else {
-                    GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_O");
                 }
             }
             animationStep++;
@@ -221,15 +214,10 @@ public class train_move : MonoBehaviour
 
     private void DidCompleteQuestion() {
         DialogPanel.SetActive(true);
-
-
         _currentWordIndex++;
-        
-
         if (_currentWordIndex < 10) {
             addCardQuestion();
-            Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString());
-            QuestionLabel.SetText("Domanda "+_currentWordIndex.ToString());  
+            Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
         } 
     }
 
@@ -237,8 +225,6 @@ public class train_move : MonoBehaviour
         isLevelComplete = true;
         Debug.Log("DidCOMPLETE Level!! "); 
         DialogPanelResult.SetActive(true);
-
-        ScoreLabel.SetText("Punti: "+_levelCurrentScore.ToString());
 
         if (_levelCurrentScore > 8) {
             // 3 stelle

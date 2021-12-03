@@ -8,6 +8,18 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour {
     // Start is called before the first frame update
 
+    public void Start() {
+        Debug.Log("Is first aa " );
+        Debug.Log(PlayerPrefs.HasKey("GameAllowWordsC"));
+        if (!PlayerPrefs.HasKey("GameAllowWordsC")) {
+            PlayerPrefs.SetInt("GameAllowWordsC", 1);
+            PlayerPrefs.SetInt("GameAllowWordsG", 1);
+            PlayerPrefs.SetInt("GameAllowWordsSc", 1);
+            PlayerPrefs.SetInt("GameDifficulty", 1);
+            PlayerPrefs.Save();
+        }
+    }
+
 
     public void PlayGame() {
         DeckManager.instance.Shuffle();

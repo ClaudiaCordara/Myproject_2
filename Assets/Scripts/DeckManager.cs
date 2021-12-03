@@ -63,7 +63,7 @@ public class DeckManager : MonoBehaviour
             index++;
             //Debug.Log(Names_soft[i].StartsWith("c");
 		}	
-		for (int i=0; i<53; i++){
+		for (int i=21; i<deckLength; i++){
 			Card temp = new Card();
 			temp.idx = index;
 			temp.name = Names_hard[i];
