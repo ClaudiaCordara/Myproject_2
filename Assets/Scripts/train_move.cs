@@ -26,6 +26,7 @@ public class train_move : MonoBehaviour
     
     public float speed = 2;
     private float distanceTravelled;
+    private int flagCardUpdate = 1;
     public EndOfPathInstruction end;
     
     private Vector3 startPosition = new Vector3(0.4f, 0, 0); //posizione iniziale trenino
@@ -186,11 +187,19 @@ public class train_move : MonoBehaviour
             distanceTravelled += speed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
             transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
-
+            
+            //aggiorna la carta subito dopo che il treno sorpassa il bivio
+            if (distanceTravelled > 5 && flagCardUpdate == 1)
+            {
+                DidCompleteQuestion();
+                flagCardUpdate = 0;
+            }
+            
             if (V3Equal(transform.position, startPosition))
             {
                 startTrain = 0; //riattiva possibilità input del player
-                DidCompleteQuestion();
+                flagCardUpdate = 1;
+                //DidCompleteQuestion();
             }
         }
     }
