@@ -46,7 +46,7 @@ public class DeckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
 	    deck = new Card[cardPerDeck];
-        fulldeck = new Card[deckLength];
+        fulldeck = new Card[deckLength+1];
 		int index=0;
 		for (int i=0; i<21; i++){
 			Card temp = new Card();
@@ -63,7 +63,7 @@ public class DeckManager : MonoBehaviour
             index++;
             //Debug.Log(Names_soft[i].StartsWith("c");
 		}	
-		for (int i=21; i<deckLength; i++){
+		for (int i=0; i<53; i++){
 			Card temp = new Card();
 			temp.idx = index;
 			temp.name = Names_hard[i];
