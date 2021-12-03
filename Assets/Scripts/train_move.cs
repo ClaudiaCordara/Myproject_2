@@ -32,6 +32,7 @@ public class train_move : MonoBehaviour
     private int startTrain = 0; //serve come variabile flag per evitare che il treno parta prima di aver scelto uno dei due path
     private Quaternion offset; //per sistemare la rotazione del trenino lungo il path
     
+    
     public int _levelID = 0;
     public int _levelPreviusScore = 0; // sul JSON salviamo solo lo score precedente; alla fine del gioco il currentScore sovrascrive il previousScore
     public int _levelCurrentScore = 0;
@@ -64,14 +65,8 @@ public class train_move : MonoBehaviour
         Debug.Log(_currentCard.name);
         //AnswerImage.Sprite = _currentCard.artwork;
         //AnswerWord.SetText(_currentCard.name);
-        if (_currentCard.IsAudio) {
-            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "🔊🔊 ASCOLTA 🔊🔊";
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-            
-        } else {
-            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-        }
+        GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
+        GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
         //AnswerImage
     }
 
@@ -79,8 +74,8 @@ public class train_move : MonoBehaviour
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         addCardQuestion();
-        UpdateStarsLabel();
 
+        PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
         if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
             DialogPanel.SetActive(true);
         } else {
@@ -125,7 +120,7 @@ public class train_move : MonoBehaviour
             if (animationStep%5== 0 || animationStep%4==0) {
                 isPuppetSpeaking = !isPuppetSpeaking;
             }
-            if (animationStep > 20) { animationStep = 0; }
+            if (animationStep > 999) { animationStep = 0; }
         }
 
 
@@ -205,11 +200,12 @@ public class train_move : MonoBehaviour
         lastSwipeWasSoft = isSoft;
         DialogPanel.SetActive(true);
        if (_currentCard.soft == isSoft) {
-           _levelCurrentScore++;
+            audioManager.instance.PlayCorrect();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
             puppetStatus = 1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
         } else {
+            audioManager.instance.PlayWrong();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
@@ -220,11 +216,8 @@ public class train_move : MonoBehaviour
 
 
     private void DidCompleteQuestion() {
-        _currentWordIndex++;
-        if (_currentWordIndex < 10) {
-            GameObject.Find("QuestionIndexLabel").GetComponent<UnityEngine.UI.Text>().text = (_currentWordIndex+1).ToString()+"/10";
-        }
         DialogPanel.SetActive(true);
+        _currentWordIndex++;
         if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
@@ -233,30 +226,21 @@ public class train_move : MonoBehaviour
 
     private void DidCompleteLevel() {
         isLevelComplete = true;
-
-        Debug.Log("DidCOMPLETE Level!! "+_currentWordIndex.ToString()); 
+        Debug.Log("DidCOMPLETE Level!! "); 
         DialogPanelResult.SetActive(true);
 
-        int gainedStars = 0;
         if (_levelCurrentScore > 8) {
             // 3 stelle
-            gainedStars = 3;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
         } else if (_levelCurrentScore > 6) {
             // 2 stelle
-            gainedStars = 2;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
         } else if (_levelCurrentScore > 4) {
             // 1 stella
-            gainedStars = 1;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
         } else {
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
         }
-
-        Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());
-        PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);
-        PlayerPrefs.Save();
 
         GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
         GameManager.instance.currentLevel = GameManager.instance.currentLevel+1;
@@ -274,9 +258,7 @@ public class train_move : MonoBehaviour
         isDraging = false;
     }
 
-    public void UpdateStarsLabel() {
-        GameObject.Find("TotalStarsLabel").GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();
-    }
+
 
     public void OpenNextLevel() {
         if (isLevelComplete) {
@@ -295,7 +277,6 @@ public class train_move : MonoBehaviour
     }
 
     public void closeDialog() {
-        Debug.Log("Asked to clise dialog!");
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";

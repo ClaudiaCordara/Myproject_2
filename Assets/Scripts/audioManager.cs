@@ -2,7 +2,7 @@
 // Assets/Scripts/audioManager.cs(4,7): error CS0246: The type or namespace name 'UnityEditorInternal' could not be found (are you missing a using directive or an assembly reference?)
 
 
-/*
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class audioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    private AudioSource audiosource;
 
     public AudioClip correctSound;
 
@@ -19,24 +19,25 @@ public class audioManager : MonoBehaviour
     public static audioManager instance;
     private void Awake()
     {
-        if (instance != null) {
-            Destroy(gameObject);
-        }else{
-            instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
         }
-    }
-    
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        audiosource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayCorrect()
     {
-        
+        audiosource.PlayOneShot(correctSound);
     }
+
+    public void PlayWrong()
+    {
+        audiosource.PlayOneShot(wrongSound);
+    }
+
 }
-*/

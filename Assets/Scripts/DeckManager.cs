@@ -46,7 +46,7 @@ public class DeckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
 	    deck = new Card[cardPerDeck];
-        fulldeck = new Card[deckLength+1];
+        fulldeck = new Card[deckLength];
 		int index=0;
 		for (int i=0; i<21; i++){
 			Card temp = new Card();
@@ -63,7 +63,7 @@ public class DeckManager : MonoBehaviour
             index++;
             //Debug.Log(Names_soft[i].StartsWith("c");
 		}	
-		for (int i=0; i<53; i++){
+		for (int i=21; i<deckLength; i++){
 			Card temp = new Card();
 			temp.idx = index;
 			temp.name = Names_hard[i];
@@ -76,7 +76,7 @@ public class DeckManager : MonoBehaviour
 			temp.IsAudio = false;
 			fulldeck[index] = temp;
 			index++;
-			//Debug.Log(Names_hard[i]+" - "+i.ToString()+" + "+index.ToString());
+			//Debug.Log(Names_hard[i].StartsWith("c");
 		}
 
 		Shuffle();
@@ -118,7 +118,8 @@ public class DeckManager : MonoBehaviour
 			} else if (allowWordsSC & fulldeck[i].IsSC) {
 				deck[n] = fulldeck[i];
 				n++;
-			}	
+			}
+
 			if (n > cardPerDeck -1) {
 				break;
             }
