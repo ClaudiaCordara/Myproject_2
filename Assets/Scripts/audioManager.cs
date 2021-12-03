@@ -40,4 +40,9 @@ public class audioManager : MonoBehaviour
         audiosource.PlayOneShot(wrongSound);
     }
 
+    public void PlaySoundCard(AudioClip cardSound)
+    {
+        audiosource.PlayOneShot(cardSound);
+    }
+
 }
