@@ -220,7 +220,7 @@ public class train_move : MonoBehaviour
     private void DidCompleteQuestion() {
         _currentWordIndex++;	
         if (_currentWordIndex < 10) {	
-           // GameObject.Find("QuestionIndexLabel").GetComponent<UnityEngine.UI.Text>().text = (_currentWordIndex+1).ToString()+"/10";	
+           GameObject.Find("QuestionIndexLabel").GetComponent<TextMeshProUGUI>().text = (_currentWordIndex+1).ToString()+"/10";	
         }
         DialogPanel.SetActive(true);
         if (_currentWordIndex < 10) {
@@ -273,7 +273,7 @@ public class train_move : MonoBehaviour
     }
 
     public void UpdateStarsLabel() {	
-        //GameObject.Find("TotalStarsLabel").GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();	
+        GameObject.Find("TotalStarsLabel").GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();	
     }
 
 
