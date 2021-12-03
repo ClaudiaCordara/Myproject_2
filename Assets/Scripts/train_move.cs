@@ -66,11 +66,19 @@ public class train_move : MonoBehaviour
         Debug.Log(_currentCard.name);
         //AnswerImage.Sprite = _currentCard.artwork;
         //AnswerWord.SetText(_currentCard.name);
-        if (_currentCard.IsAudio) {
+        
+        /*if (_currentCard.IsAudio) {
             audioManager.instance.PlaySoundCard(_currentCard.clip);
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-        } else {
+        } else {*/
+        
+        //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()"
+        if (_currentCard.IsAudio)
+        {
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        }else{
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
         }
@@ -80,6 +88,10 @@ public class train_move : MonoBehaviour
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         addCardQuestion();
+        if (_currentCard.IsAudio) //in caso l'audio fosse la prima parola da indovinare
+        {
+            audioManager.instance.PlaySoundCard(_currentCard.clip);
+        }
         UpdateStarsLabel();
 
         if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
@@ -204,6 +216,12 @@ public class train_move : MonoBehaviour
             {
                 startTrain = 0; //riattiva possibilità input del player
                 flagCardUpdate = 1;
+                
+                //qui è dove effettivamente viene letto l'audio della parola
+                if (_currentCard.IsAudio)
+                {
+                    audioManager.instance.PlaySoundCard(_currentCard.clip);
+                }
                 //DidCompleteQuestion();
             }
         }
