@@ -294,7 +294,6 @@ public class train_move : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-    bool shouldHideDialog = true;
     public void closeDialog() {
         Debug.Log("Asked to clise dialog!");
         if (_currentWordIndex == 0) {
@@ -302,7 +301,6 @@ public class train_move : MonoBehaviour
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
                 PlayerPrefs.SetInt("GameShouldHideTutorial", 1);
                 PlayerPrefs.Save();
-                shouldHideDialog = true;
             } else {
                 DialogPanel.SetActive(false);
             }
