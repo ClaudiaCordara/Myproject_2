@@ -24,7 +24,7 @@ public class train_move : MonoBehaviour
     public GameObject DialogPanel;
     public GameObject DialogPanelResult;
     
-    public float speed = 2;
+    private float speed = 1.75f;
     private float distanceTravelled;
     private int flagCardUpdate = 1;
     public EndOfPathInstruction end;
@@ -204,6 +204,10 @@ public class train_move : MonoBehaviour
             distanceTravelled += speed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
             transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
+            if (Input.GetMouseButtonDown(0) && (speed < 5.0f))
+            {
+                speed += 0.15f;
+            }
             
             //aggiorna la carta subito dopo che il treno sorpassa il bivio
             if (distanceTravelled > 5 && flagCardUpdate == 1)
@@ -216,6 +220,7 @@ public class train_move : MonoBehaviour
             {
                 startTrain = 0; //riattiva possibilità input del player
                 flagCardUpdate = 1;
+                speed = 1.00f;
                 
                 //qui è dove effettivamente viene letto l'audio della parola
                 if (_currentCard.IsAudio)
