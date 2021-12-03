@@ -65,9 +65,14 @@ public class train_move : MonoBehaviour
         Debug.Log(_currentCard.name);
         //AnswerImage.Sprite = _currentCard.artwork;
         //AnswerWord.SetText(_currentCard.name);
-        GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
-        GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-        //AnswerImage
+        if (_currentCard.IsAudio) {
+            audioManager.instance.PlaySoundCard(_currentCard.clip);
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        } else {
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        }
     }
 
     // Start is called before the first frame update
