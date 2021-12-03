@@ -46,7 +46,7 @@ public class DeckManager : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
 	    deck = new Card[cardPerDeck];
-        fulldeck = new Card[deckLength];
+        fulldeck = new Card[deckLength+1];
 		int index=0;
 		for (int i=0; i<21; i++){
 			Card temp = new Card();
@@ -76,7 +76,7 @@ public class DeckManager : MonoBehaviour
 			temp.IsAudio = false;
 			fulldeck[index] = temp;
 			index++;
-			//Debug.Log(Names_hard[i].StartsWith("c");
+			//Debug.Log(Names_hard[i]+" - "+i.ToString()+" + "+index.ToString());
 		}
 
 		Shuffle();

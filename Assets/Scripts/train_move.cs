@@ -200,6 +200,7 @@ public class train_move : MonoBehaviour
         lastSwipeWasSoft = isSoft;
         DialogPanel.SetActive(true);
        if (_currentCard.soft == isSoft) {
+           _levelCurrentScore++;
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
             puppetStatus = 1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
@@ -231,24 +232,25 @@ public class train_move : MonoBehaviour
         Debug.Log("DidCOMPLETE Level!! "+_currentWordIndex.ToString()); 
         DialogPanelResult.SetActive(true);
 
-        int gainedStard = 0;
+        int gainedStars = 0;
         if (_levelCurrentScore > 8) {
             // 3 stelle
-            gainedStard = 3;
+            gainedStars = 3;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
         } else if (_levelCurrentScore > 6) {
             // 2 stelle
-            gainedStard = 2;
+            gainedStars = 2;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
         } else if (_levelCurrentScore > 4) {
             // 1 stella
-            gainedStard = 1;
+            gainedStars = 1;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
         } else {
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
         }
 
-        PlayerPrefs.SetInt("GameTotalStars" ,PlayerPrefs.GetInt("GameTotalStars") + gainedStard);
+        Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());
+        PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);
         PlayerPrefs.Save();
 
         GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
