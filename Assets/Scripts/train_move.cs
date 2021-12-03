@@ -32,7 +32,6 @@ public class train_move : MonoBehaviour
     private int startTrain = 0; //serve come variabile flag per evitare che il treno parta prima di aver scelto uno dei due path
     private Quaternion offset; //per sistemare la rotazione del trenino lungo il path
     
-    
     public int _levelID = 0;
     public int _levelPreviusScore = 0; // sul JSON salviamo solo lo score precedente; alla fine del gioco il currentScore sovrascrive il previousScore
     public int _levelCurrentScore = 0;
@@ -65,8 +64,14 @@ public class train_move : MonoBehaviour
         Debug.Log(_currentCard.name);
         //AnswerImage.Sprite = _currentCard.artwork;
         //AnswerWord.SetText(_currentCard.name);
-        GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
-        GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        if (_currentCard.IsAudio) {
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "🔊🔊 ASCOLTA 🔊🔊";
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+            
+        } else {
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        }
         //AnswerImage
     }
 
@@ -120,7 +125,7 @@ public class train_move : MonoBehaviour
             if (animationStep%5== 0 || animationStep%4==0) {
                 isPuppetSpeaking = !isPuppetSpeaking;
             }
-            if (animationStep > 999) { animationStep = 0; }
+            if (animationStep > 20) { animationStep = 0; }
         }
 
 
