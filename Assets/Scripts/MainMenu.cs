@@ -10,12 +10,13 @@ public class MainMenu : MonoBehaviour {
 
     public void Start() {
         Debug.Log("Is first aa " );
-        Debug.Log(PlayerPrefs.HasKey("GameAllowWordsC"));
+        Debug.Log(PlayerPrefs.HasKey("GameTotalStars"));
         if (!PlayerPrefs.HasKey("GameAllowWordsC")) {
             PlayerPrefs.SetInt("GameAllowWordsC", 1);
             PlayerPrefs.SetInt("GameAllowWordsG", 1);
             PlayerPrefs.SetInt("GameAllowWordsSc", 1);
             PlayerPrefs.SetInt("GameDifficulty", 1);
+            PlayerPrefs.SetInt("GameTotalStars", 0);
             PlayerPrefs.Save();
         }
     }

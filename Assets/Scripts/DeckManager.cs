@@ -118,8 +118,7 @@ public class DeckManager : MonoBehaviour
 			} else if (allowWordsSC & fulldeck[i].IsSC) {
 				deck[n] = fulldeck[i];
 				n++;
-			}
-
+			}	
 			if (n > cardPerDeck -1) {
 				break;
             }

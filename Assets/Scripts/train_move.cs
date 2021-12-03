@@ -256,7 +256,11 @@ public class train_move : MonoBehaviour
         isDraging = false;
     }
 
+    public void UpdateStarsLabel() {
 
+        GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();
+
+    }
 
     public void OpenNextLevel() {
         if (isLevelComplete) {
@@ -276,6 +280,7 @@ public class train_move : MonoBehaviour
 
     bool shouldHideDialog = true;
     public void closeDialog() {
+        Debug.Log("Asked to clise dialog!");
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
