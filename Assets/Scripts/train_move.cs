@@ -200,15 +200,16 @@ public class train_move : MonoBehaviour
         lastSwipeWasSoft = isSoft;
         DialogPanel.SetActive(true);
        if (_currentCard.soft == isSoft) {
-            audioManager.instance.PlayCorrect();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
             puppetStatus = 1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
+            audioManager.instance.PlayCorrect();
         } else {
             audioManager.instance.PlayWrong();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
+            audioManager.instance.PlayWrong();
             Handheld.Vibrate(); // Facciamo vibrare il dispositivo quando si verifica un errore // Dalla letteratura è utile inserire feedback aptici!
         }
         DialogPanel.SetActive(false);
