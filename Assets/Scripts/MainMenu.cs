@@ -11,7 +11,8 @@ public class MainMenu : MonoBehaviour {
     public void Start() {
         Debug.Log("Is first aa " );
         Debug.Log(PlayerPrefs.HasKey("GameTotalStars"));
-        if (!PlayerPrefs.HasKey("GameAllowWordsC")) {
+        if (!PlayerPrefs.HasKey("GameTotalStars")) {
+            PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
             PlayerPrefs.SetInt("GameAllowWordsC", 1);
             PlayerPrefs.SetInt("GameAllowWordsG", 1);
             PlayerPrefs.SetInt("GameAllowWordsSc", 1);

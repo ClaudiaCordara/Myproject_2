@@ -74,8 +74,8 @@ public class train_move : MonoBehaviour
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         addCardQuestion();
+        UpdateStarsLabel();
 
-        PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
         if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
             DialogPanel.SetActive(true);
         } else {
@@ -214,8 +214,11 @@ public class train_move : MonoBehaviour
 
 
     private void DidCompleteQuestion() {
-        DialogPanel.SetActive(true);
         _currentWordIndex++;
+        if (_currentWordIndex < 10) {
+            GameObject.Find("QuestionIndexLabel").GetComponent<UnityEngine.UI.Text>().text = (_currentWordIndex+1).ToString()+"/10";
+        }
+        DialogPanel.SetActive(true);
         if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
@@ -224,21 +227,29 @@ public class train_move : MonoBehaviour
 
     private void DidCompleteLevel() {
         isLevelComplete = true;
-        Debug.Log("DidCOMPLETE Level!! "); 
+
+        Debug.Log("DidCOMPLETE Level!! "+_currentWordIndex.ToString()); 
         DialogPanelResult.SetActive(true);
 
+        int gainedStard = 0;
         if (_levelCurrentScore > 8) {
             // 3 stelle
+            gainedStard = 3;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
         } else if (_levelCurrentScore > 6) {
             // 2 stelle
+            gainedStard = 2;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
         } else if (_levelCurrentScore > 4) {
             // 1 stella
+            gainedStard = 1;
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
         } else {
             GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
         }
+
+        PlayerPrefs.SetInt("GameTotalStars" ,PlayerPrefs.GetInt("GameTotalStars") + gainedStard);
+        PlayerPrefs.Save();
 
         GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
         GameManager.instance.currentLevel = GameManager.instance.currentLevel+1;
@@ -257,9 +268,7 @@ public class train_move : MonoBehaviour
     }
 
     public void UpdateStarsLabel() {
-
-        GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();
-
+        GameObject.Find("TotalStarsLabel").GetComponent<UnityEngine.UI.Text>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();
     }
 
     public void OpenNextLevel() {
