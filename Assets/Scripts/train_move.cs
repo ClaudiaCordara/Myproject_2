@@ -77,7 +77,8 @@ public class train_move : MonoBehaviour
         if (_currentCard.IsAudio)
         {
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+            //GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
         }else{
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
