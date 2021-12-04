@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class MainMenu : MonoBehaviour {
@@ -16,10 +17,15 @@ public class MainMenu : MonoBehaviour {
             PlayerPrefs.SetInt("GameAllowWordsG", 1);
             PlayerPrefs.SetInt("GameAllowWordsSc", 1);
             PlayerPrefs.SetInt("GameDifficulty", 1);
+            PlayerPrefs.SetInt("TotalStarsLabel", 0);
             PlayerPrefs.Save();
         }
+        UpdateStarsLabel();
     }
 
+    public void UpdateStarsLabel() {	
+        GameObject.Find("TotalStarsLabel").GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();	
+    }
 
     public void PlayGame() {
         DeckManager.instance.Shuffle();
