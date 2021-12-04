@@ -24,7 +24,7 @@ public class train_move : MonoBehaviour
     public GameObject DialogPanel;
     public GameObject DialogPanelResult;
     
-    private float speed = 1.75f;
+    private float speed = 3.5f;
     private float distanceTravelled;
     private int flagCardUpdate = 1;
     public EndOfPathInstruction end;
@@ -205,9 +205,9 @@ public class train_move : MonoBehaviour
             distanceTravelled += speed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
             transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
-            if (Input.GetMouseButtonDown(0) && (speed < 5.0f))
+            if (Input.GetMouseButtonDown(0) && (speed < 6.0f))
             {
-                speed += 0.15f;
+                speed += 0.3f;
             }
             
             //aggiorna la carta subito dopo che il treno sorpassa il bivio
