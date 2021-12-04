@@ -26,14 +26,6 @@ public class MainMenu : MonoBehaviour {
         StartCoroutine(CorutineOpenNextLevel());
     }
 
-    public void LevelsGame() {
-        StartCoroutine(CorutineOpenLevels());
-    }
-    IEnumerator CorutineOpenLevels() {
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(1);
-    }
-
     public void OpenCredits() {
         StartCoroutine(CorutineOpenCredits());
     }
@@ -43,8 +35,8 @@ public class MainMenu : MonoBehaviour {
     }
     IEnumerator CorutineOpenNextLevel() {
         yield return new WaitForSeconds(1);
-        GameManager.instance.currentLevel = GameManager.instance.currentLevel + 1;
-        SceneManager.LoadScene(4);
+        GameManager.instance.currentLevel = 1;
+        SceneManager.LoadScene(2);
     }
 
     public void ToggleWordsC() {
