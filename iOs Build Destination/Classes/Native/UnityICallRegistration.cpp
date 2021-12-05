@@ -126,6 +126,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_AudioSource_PlayHelper();
 		Register_UnityEngine_AudioSource_PlayHelper();
 
+		//System.Void UnityEngine.AudioSource::PlayOneShotHelper(UnityEngine.AudioSource,UnityEngine.AudioClip,System.Single)
+		void Register_UnityEngine_AudioSource_PlayOneShotHelper();
+		Register_UnityEngine_AudioSource_PlayOneShotHelper();
+
 	//End Registrations for type : UnityEngine.AudioSource
 
 	//Start Registrations for type : UnityEngine.Behaviour
@@ -879,6 +883,14 @@ void RegisterAllStrippedInternalCalls()
 		Register_UnityEngine_GUIUtility_set_systemCopyBuffer();
 
 	//End Registrations for type : UnityEngine.GUIUtility
+
+	//Start Registrations for type : UnityEngine.Handheld
+
+		//System.Void UnityEngine.Handheld::Vibrate()
+		void Register_UnityEngine_Handheld_Vibrate();
+		Register_UnityEngine_Handheld_Vibrate();
+
+	//End Registrations for type : UnityEngine.Handheld
 
 	//Start Registrations for type : UnityEngine.Input
 

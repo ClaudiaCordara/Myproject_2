@@ -6,7 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+//using UnityEditorInternal.Profiling.Memory.Experimental; // Dà errore su iOs
 using UnityEngine;
 
 public class audioManager : MonoBehaviour

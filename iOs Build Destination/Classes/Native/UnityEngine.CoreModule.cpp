@@ -2681,6 +2681,15 @@ public:
 };
 
 
+// UnityEngine.Handheld
+struct Handheld_tB2FF6DD0892401FAE66F3690DC8936DB07F2FA5F  : public RuntimeObject
+{
+public:
+
+public:
+};
+
+
 // UnityEngine.Events.InvokableCallList
 struct InvokableCallList_tB7C66AA0C00F9C102C8BDC17A144E569AC7527A9  : public RuntimeObject
 {
@@ -24515,6 +24524,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GraphicsSettings_get_lightsUseLinearInte
 	_il2cpp_icall_func = (GraphicsSettings_get_lightsUseLinearIntensity_m02A37F59F36C77877FC86B93478BC5795F70FFB2_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.Rendering.GraphicsSettings::get_lightsUseLinearIntensity()");
 	bool icallRetVal = _il2cpp_icall_func();
 	return icallRetVal;
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+// System.Void UnityEngine.Handheld::Vibrate()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Handheld_Vibrate_m521B854160443BEBA8D2D3BE63641000E1DAA82E (const RuntimeMethod* method)
+{
+	typedef void (*Handheld_Vibrate_m521B854160443BEBA8D2D3BE63641000E1DAA82E_ftn) ();
+	static Handheld_Vibrate_m521B854160443BEBA8D2D3BE63641000E1DAA82E_ftn _il2cpp_icall_func;
+	if (!_il2cpp_icall_func)
+	_il2cpp_icall_func = (Handheld_Vibrate_m521B854160443BEBA8D2D3BE63641000E1DAA82E_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.Handheld::Vibrate()");
+	_il2cpp_icall_func();
 }
 #ifdef __clang__
 #pragma clang diagnostic pop

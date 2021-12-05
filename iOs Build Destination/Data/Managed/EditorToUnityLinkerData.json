@@ -429,7 +429,8 @@
                 "Assets/Scenes/Menu.unity",
                 "Assets/Scenes/Levels.unity",
                 "Assets/Scenes/Treno_vecchio.unity",
-                "Assets/Scenes/Credits.unity"
+                "Assets/Scenes/Credits.unity",
+                "Assets/Scenes/Prova_terreno.unity"
             ]
         },
         {
@@ -454,7 +455,8 @@
                 "Assets/Scenes/Menu.unity",
                 "Assets/Scenes/Levels.unity",
                 "Assets/Scenes/Treno_vecchio.unity",
-                "Assets/Scenes/Credits.unity"
+                "Assets/Scenes/Credits.unity",
+                "Assets/Scenes/Prova_terreno.unity"
             ]
         },
         {
@@ -685,6 +687,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "PathCreation.Examples.RoadMeshCreator",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "audioManager",
             "moduleName": "",
             "usedInScenes": []
         },

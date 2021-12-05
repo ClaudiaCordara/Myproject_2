@@ -56,6 +56,7 @@
 		<type fullname="LevelsScript" preserve="nothing"/>
 		<type fullname="MainMenu" preserve="nothing"/>
 		<type fullname="PathCreation.Examples.RoadMeshCreator" preserve="nothing"/>
+		<type fullname="audioManager" preserve="nothing"/>
 		<type fullname="cam_move" preserve="nothing"/>
 		<type fullname="train_move" preserve="nothing"/>
 	</assembly>
