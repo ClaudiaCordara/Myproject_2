@@ -242,7 +242,6 @@ public class train_move : MonoBehaviour
             }
         } else {
             ShouldOpenHoverlay = true;
-            audioManager.instance.PlayWrong();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
             GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
@@ -265,7 +264,9 @@ public class train_move : MonoBehaviour
         if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
-        } 
+        } else {
+            DidCompleteLevel();
+        }
     }
 
     private void DidCompleteLevel() {
