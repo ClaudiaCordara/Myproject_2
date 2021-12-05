@@ -34,7 +34,8 @@ public class train_move : MonoBehaviour
     public bool trainIsMoving = false; //serve come variabile flag per evitare che il treno parta prima di aver scelto uno dei due path
     private Quaternion offset; //per sistemare la rotazione del trenino lungo il path
     
-    
+    public bool ShouldShowHoverlayOnCorrectAnswer = true;
+    public bool ShouldOpenHoverlay = false;
     public int _levelID = 0;
     public int _levelPreviusScore = 0; // sul JSON salviamo solo lo score precedente; alla fine del gioco il currentScore sovrascrive il previousScore
     public int _levelCurrentScore = 0;
@@ -82,6 +83,7 @@ public class train_move : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
+        ShouldShowHoverlayOnCorrectAnswer = true;
         addCardQuestion();
         if (_currentCard.IsAudio) //in caso l'audio fosse la prima parola da indovinare
         {
@@ -231,13 +233,19 @@ public class train_move : MonoBehaviour
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
             _levelCurrentScore++;
             puppetStatus = 1;
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta corretta! La parola “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nContinua così!";
             audioManager.instance.PlayCorrect();
+            ShouldOpenHoverlay = false;
+            if (ShouldShowHoverlayOnCorrectAnswer) {
+                ShouldOpenHoverlay = true;
+                ShouldShowHoverlayOnCorrectAnswer = false;
+            }
         } else {
+            ShouldOpenHoverlay = true;
             audioManager.instance.PlayWrong();
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
             audioManager.instance.PlayWrong();
             Handheld.Vibrate(); // Facciamo vibrare il dispositivo quando si verifica un errore // Dalla letteratura è utile inserire feedback aptici!
         }
@@ -250,7 +258,10 @@ public class train_move : MonoBehaviour
         if (_currentWordIndex < 10) {	
            GameObject.Find("QuestionIndexLabel").GetComponent<TextMeshProUGUI>().text = (_currentWordIndex+1).ToString()+"/10";	
         }
-        DialogPanel.SetActive(true);
+        if (ShouldOpenHoverlay) {
+            ShouldOpenHoverlay = false;
+            DialogPanel.SetActive(true);
+        }
         if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
