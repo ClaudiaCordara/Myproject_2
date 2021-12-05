@@ -24,13 +24,14 @@ public class train_move : MonoBehaviour
     public GameObject DialogPanel;
     public GameObject DialogPanelResult;
     
-    private float speed = 3.5f;
-    private float distanceTravelled;
+    const float StartSpeed = 3.5f;    
+    public float speed = StartSpeed;
+    public float distanceTravelled;
     private int flagCardUpdate = 1;
     public EndOfPathInstruction end;
     
     private Vector3 startPosition = new Vector3(0.4f, 0, 0); //posizione iniziale trenino
-    private int startTrain = 0; //serve come variabile flag per evitare che il treno parta prima di aver scelto uno dei due path
+    public bool trainIsMoving = false; //serve come variabile flag per evitare che il treno parta prima di aver scelto uno dei due path
     private Quaternion offset; //per sistemare la rotazione del trenino lungo il path
     
     
@@ -40,6 +41,8 @@ public class train_move : MonoBehaviour
     public int _worldID = 0; // L'id del mondo/modalità è usato anche per trovare lo sfondo legato a quella modalità (EX. mondo facile: world_background_1.png ...)
     public int _currentWordIndex = 0; // va da 0 a 9 e la usiamo per ottenere la parola corrente nel livello corrente nel mondo corrente
     
+
+    public bool shouldPlayWord = false;
         public bool V3Equal(Vector3 a, Vector3 b) //confronta variabile vector3 evitando errori di approssimazione
     {
         return Vector3.SqrMagnitude(a - b) < 0.001;
@@ -64,20 +67,11 @@ public class train_move : MonoBehaviour
     void addCardQuestion() {
         _currentCard = DeckManager.instance.deck[_currentWordIndex];
         Debug.Log(_currentCard.name);
-        //AnswerImage.Sprite = _currentCard.artwork;
-        //AnswerWord.SetText(_currentCard.name);
-        
-        /*if (_currentCard.IsAudio) {
-            audioManager.instance.PlaySoundCard(_currentCard.clip);
-            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-        } else {*/
-        
-        //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()"
+        //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()" OK! Ho aggiunto epr evitare che la parola venisse riprodotta all'infinito
         if (_currentCard.IsAudio)
         {
+            shouldPlayWord = true;
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
-            //GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
         }else{
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
@@ -147,14 +141,11 @@ public class train_move : MonoBehaviour
         //tap = swipeLeft = swipeRight = false;
         
         #region Standalone Inputs
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButtonDown(0)) {
             //tap = true;
             isDraging = true;
             startTouch = Input.mousePosition;
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
+        } else if (Input.GetMouseButtonDown(0)) {
             isDraging = false;
             Reset();
         }
@@ -162,7 +153,7 @@ public class train_move : MonoBehaviour
 
         //Calculate the distance
         swipeDelta = Vector2.zero;
-        if (isDraging & startTrain == 0) //impedisce input se treno in movimento
+        if (isDraging & !trainIsMoving) //impedisce input se treno in movimento
         {
             if (Input.touches.Length > 0)
                 swipeDelta = Input.touches[0].position - startTouch;
@@ -170,65 +161,64 @@ public class train_move : MonoBehaviour
                 swipeDelta = (Vector2) Input.mousePosition - startTouch;
         }
 
-        if (swipeDelta.magnitude > 125 & !isLevelComplete)
-        {
+
+
+        if (swipeDelta.magnitude > 25 & !isLevelComplete & !trainIsMoving) {
             //which direction?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
-            if ((Mathf.Abs(x) > Mathf.Abs(y)) & startTrain == 0)
-            {
+            if (Mathf.Abs(x) > Mathf.Abs(y)) {
                 if (x < 0)//swipe a sinistra
                 {
+                    trainIsMoving = true;
                     DidSwipe(false);
-                    //swipeLeft = true;
                     pathCreator = pathLeftObj.GetComponent<PathCreator>(); //cambia path
                     offset = pathCreator.path.GetRotation(1); //cambia offset
                     distanceTravelled = 0; //azzera la distanza
-                    startTrain = 1; //entra nell'if di movimento del treno
                 }
                 else//swipe a destra
                 {
+                    trainIsMoving = true;
                     DidSwipe(true);
-                    //swipeRight = true;
                     pathCreator = pathRightObj.GetComponent<PathCreator>();
                     offset = pathCreator.path.GetRotation(1);
                     distanceTravelled = 0;
-                    startTrain = 1;
                 }
             }
             Reset();
         }
 
         //movimento effettivo del treno
-        if (startTrain == 1)
-        {
+        if (trainIsMoving) {
             distanceTravelled += speed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
             transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
-            if (Input.GetMouseButtonDown(0) && (speed < 6.0f))
-            {
-                speed += 0.3f;
+            
+            if (Input.GetMouseButtonDown(0) && (speed < 6.0f)) {
+                speed *= 2;
             }
             
             //aggiorna la carta subito dopo che il treno sorpassa il bivio
-            if (distanceTravelled > 5 && flagCardUpdate == 1)
-            {
+            if (distanceTravelled > 5 && flagCardUpdate == 1) {
                 DidCompleteQuestion();
                 flagCardUpdate = 0;
             }
-            
-            if (V3Equal(transform.position, startPosition))
-            {
-                startTrain = 0; //riattiva possibilità input del player
-                flagCardUpdate = 1;
-                speed = 1.00f;
-                
-                //qui è dove effettivamente viene letto l'audio della parola
-                if (_currentCard.IsAudio)
-                {
-                    audioManager.instance.PlaySoundCard(_currentCard.clip);
+
+            if (distanceTravelled > 23) {
+                if (_currentWordIndex < 10 & _currentWordIndex > 0) {
+                    closeDialog();
                 }
-                //DidCompleteQuestion();
+            }
+            
+            if (V3Equal(transform.position, startPosition)) {
+                trainIsMoving = false; //riattiva possibilità input del player
+                flagCardUpdate = 1;
+                speed = StartSpeed;
+                Debug.Log("Back tos tart position! "+_currentCard.IsAudio.ToString());
+                if (_currentCard.IsAudio && shouldPlayWord) {   
+                    audioManager.instance.PlaySoundCard(_currentCard.clip);
+                    shouldPlayWord = false;
+                }
             }
         }
     }
@@ -268,34 +258,36 @@ public class train_move : MonoBehaviour
     }
 
     private void DidCompleteLevel() {
-        isLevelComplete = true;
-        Debug.Log("DidCOMPLETE Level!! "); 
-        DialogPanelResult.SetActive(true);
+        if (!isLevelComplete) {
+            isLevelComplete = true;
+            Debug.Log("DidCOMPLETE Level!! "); 
+            DialogPanelResult.SetActive(true);
 
-        int gainedStars = 0;
-        if (_levelCurrentScore > 8) {
-            // 3 stelle
-            gainedStars = 3;
-            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
-        } else if (_levelCurrentScore > 6) {
-            // 2 stelle
-            gainedStars = 2;
-            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
-        } else if (_levelCurrentScore > 4) {
-            // 1 stella
-            gainedStars = 1;
-            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
-        } else {
-            GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
+            int gainedStars = 0;
+            if (_levelCurrentScore > 8) {
+                // 3 stelle
+                gainedStars = 3;
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
+            } else if (_levelCurrentScore > 6) {
+                // 2 stelle
+                gainedStars = 2;
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
+            } else if (_levelCurrentScore > 4) {
+                // 1 stella
+                gainedStars = 1;
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
+            } else {
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
+            }
+
+            Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());	
+            PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);	
+            PlayerPrefs.Save();
+            UpdateStarsLabel();
+
+            GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
+            GameManager.instance.currentLevel = GameManager.instance.currentLevel+1;
         }
-
-        Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());	
-        PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);	
-        PlayerPrefs.Save();
-        UpdateStarsLabel();
-
-        GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
-        GameManager.instance.currentLevel = GameManager.instance.currentLevel+1;
     }
     
     IEnumerator CorutineNextLevelPlay() {
@@ -340,8 +332,8 @@ public class train_move : MonoBehaviour
                 DialogPanel.SetActive(false);
             }
         } else {
-             DialogPanel.SetActive(false);
-             if (_currentWordIndex > 9) {
+            DialogPanel.SetActive(false);
+            if (_currentWordIndex > 9) {
                 DidCompleteLevel();
             }
         }

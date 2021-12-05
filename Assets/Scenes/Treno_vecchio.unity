@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44916713, g: 0.49589097, b: 0.5577393, a: 1}
+  m_IndirectSpecularColor: {r: 0.4491669, g: 0.49589038, b: 0.557739, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4579,12 +4579,16 @@ MonoBehaviour:
   AnswerWord: {fileID: 1344169069}
   DialogPanel: {fileID: 1078426553}
   DialogPanelResult: {fileID: 843625457}
+  speed: 3.5
+  distanceTravelled: 0
   end: 2
+  trainIsMoving: 0
   _levelID: 0
   _levelPreviusScore: 0
   _levelCurrentScore: 0
   _worldID: 0
   _currentWordIndex: 0
+  shouldPlayWord: 0
   period: 0.2
 --- !u!4 &1004785700 stripped
 Transform:
@@ -4887,7 +4891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1078426554
 RectTransform:
   m_ObjectHideFlags: 0
