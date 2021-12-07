@@ -170,8 +170,9 @@ public class DeckManager : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
-	public void SetLevelDifficulty(int levelDifficulty) {
-		PlayerPrefs.SetInt("GameDifficulty", levelDifficulty);
+	public void SetLevelDifficulty(int newLevelDifficulty) {
+		levelDifficulty = newLevelDifficulty;
+		PlayerPrefs.SetInt("GameDifficulty", newLevelDifficulty);
 		PlayerPrefs.Save();
 	}
 }

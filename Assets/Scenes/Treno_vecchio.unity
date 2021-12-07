@@ -3004,7 +3004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7b78f3010bdd74949bc21eb1f6db960b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bf5a5f8db1f34fa38f65903362e6527, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4583,6 +4583,8 @@ MonoBehaviour:
   distanceTravelled: 0
   end: 2
   trainIsMoving: 0
+  ShouldShowHoverlayOnCorrectAnswer: 1
+  ShouldOpenHoverlay: 0
   _levelID: 0
   _levelPreviusScore: 0
   _levelCurrentScore: 0
@@ -4891,7 +4893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1078426554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7650,7 +7652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5e05c1528e0f1484789b397a91177722, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d50f7e55fe0144bc8bd777cfb860994, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

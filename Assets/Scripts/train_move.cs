@@ -24,7 +24,7 @@ public class train_move : MonoBehaviour
     public GameObject DialogPanel;
     public GameObject DialogPanelResult;
     
-    const float StartSpeed = 3.5f;    
+    const float StartSpeed = 3.2f;    
     public float speed = StartSpeed;
     public float distanceTravelled;
     private int flagCardUpdate = 1;
@@ -64,37 +64,27 @@ public class train_move : MonoBehaviour
 
     }
    
-
-    void addCardQuestion() {
-        _currentCard = DeckManager.instance.deck[_currentWordIndex];
-        Debug.Log(_currentCard.name);
-        //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()" OK! Ho aggiunto epr evitare che la parola venisse riprodotta all'infinito
-        if (_currentCard.IsAudio)
-        {
-            shouldPlayWord = true;
-            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
-        }else{
-            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
-            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
-        }
-    }
-
     // Start is called before the first frame update
     void Start() {
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         ShouldShowHoverlayOnCorrectAnswer = true;
+        
         addCardQuestion();
-        if (_currentCard.IsAudio) //in caso l'audio fosse la prima parola da indovinare
-        {
-            audioManager.instance.PlaySoundCard(_currentCard.clip);
-        }
+        StartCoroutine(CorutineAddCardQuestion());
         UpdateStarsLabel();
 
         if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
             DialogPanel.SetActive(true);
         } else {
             DialogPanel.SetActive(false);
+        }
+    }
+    
+    IEnumerator CorutineAddCardQuestion() {
+        yield return new WaitForSeconds(1);
+        if (_currentCard.IsAudio) //in caso l'audio fosse la prima parola da indovinare
+        {
+            audioManager.instance.PlaySoundCard(_currentCard.clip);
         }
     }
 
@@ -109,26 +99,26 @@ public class train_move : MonoBehaviour
             if (DialogPanel.activeSelf) {
                 if (isPuppetSpeaking) {
                     if (puppetStatus == -1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_wrong");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeS1");
                     } else if (puppetStatus == 1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base_correct");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN1");
                     } else {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_base");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN1");
                     }
                 } else {
                     if (puppetStatus == -1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_wrong");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeS2");
                     } else if (puppetStatus == 1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O_correct");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN2");
                     } else {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_O");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN3");
                     }
                 }
             } else if (DialogPanelResult.activeSelf) {
                 if (isPuppetSpeaking) {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_base");
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeH1");
                 } else {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeDeiSuoni_superhappy_O");
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeH2");
                 }
             }
             animationStep++;
@@ -206,7 +196,7 @@ public class train_move : MonoBehaviour
                 flagCardUpdate = 0;
             }
 
-            if (distanceTravelled > 23) {
+            if (distanceTravelled > 25) {
                 if (_currentWordIndex < 10 & _currentWordIndex > 0) {
                     closeDialog();
                 }
@@ -224,6 +214,22 @@ public class train_move : MonoBehaviour
             }
         }
     }
+
+    void addCardQuestion() {
+        _currentCard = DeckManager.instance.deck[_currentWordIndex];
+        Debug.Log(_currentCard.name);
+        //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()" OK! Ho aggiunto epr evitare che la parola venisse riprodotta all'infinito
+        if (_currentCard.IsAudio)
+        {
+            shouldPlayWord = true;
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
+        }else{
+            GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
+            GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
+        }
+    }
+
 
     bool lastSwipeWasSoft = false;
     private void DidSwipe(bool isSoft) {
