@@ -9,6 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour {
     // Start is called before the first frame update
 
+    public GameObject imageObject;
     public void Start() {
         Debug.Log("Is first aa " );
         Debug.Log(PlayerPrefs.HasKey("GameAllowWordsC"));
@@ -21,6 +22,11 @@ public class MainMenu : MonoBehaviour {
             PlayerPrefs.Save();
         }
         UpdateStarsLabel();
+
+        if (PlayerPrefs.GetInt("GameTotalStars") > 30) {
+            GameObject.Find("PrincipeImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeN1");
+            GameObject.Find("PrincipeOptionsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeI1");
+        }
     }
 
     public void UpdateStarsLabel() {	

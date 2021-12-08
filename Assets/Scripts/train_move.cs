@@ -56,6 +56,7 @@ public class train_move : MonoBehaviour
     private bool isLevelComplete = false;
     private bool isPuppetSpeaking = false;
     private int puppetStatus = 0;
+    private string imagePrefix = "";
 
     void Awake () {
         _currentWordIndex = 0;
@@ -69,6 +70,8 @@ public class train_move : MonoBehaviour
         Debug.Log("OPENED LEVEL SPECIAL! " + _levelID.ToString() + " - ");
         ShouldShowHoverlayOnCorrectAnswer = true;
         
+        imagePrefix = (PlayerPrefs.GetInt("GameTotalStars")>=30)?"Q":"";
+
         addCardQuestion();
         StartCoroutine(CorutineAddCardQuestion());
         UpdateStarsLabel();
@@ -99,26 +102,26 @@ public class train_move : MonoBehaviour
             if (DialogPanel.activeSelf) {
                 if (isPuppetSpeaking) {
                     if (puppetStatus == -1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeS1");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeS1");
                     } else if (puppetStatus == 1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN1");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeN1");
                     } else {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN1");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeN1");
                     }
                 } else {
                     if (puppetStatus == -1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeS2");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeS2");
                     } else if (puppetStatus == 1) {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN2");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeN2");
                     } else {
-                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeN3");
+                        GameObject.Find("PrincipeDeiSuoniDialog").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeN3");
                     }
                 }
             } else if (DialogPanelResult.activeSelf) {
                 if (isPuppetSpeaking) {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeH1");
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH1");
                 } else {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>("PrincipeH2");
+                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH2");
                 }
             }
             animationStep++;
@@ -302,7 +305,11 @@ public class train_move : MonoBehaviour
             PlayerPrefs.Save();
             int remainingStars = 30-PlayerPrefs.GetInt("GameTotalStars");
             if (remainingStars > 0) {
-                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti! Ce la hai fatta. Altre "+remainingStars.ToString()+" stelle e sarò Re!";
+                if (_levelCurrentScore > 4) {
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti! Ce la hai fatta. Altre "+remainingStars.ToString()+" stelle e sarò Re!";
+                } else {
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
+                }
             } else {
                 GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Un vero Re non smette mai di perfezionarsi!";
             }
