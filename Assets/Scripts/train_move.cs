@@ -298,9 +298,16 @@ public class train_move : MonoBehaviour
                 GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
             }
 
-            Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());	
             PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);	
             PlayerPrefs.Save();
+            int remainingStars = 30-PlayerPrefs.GetInt("GameTotalStars");
+            if (remainingStars > 0) {
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti! Ce la hai fatta. Altre "+remainingStars.ToString()+" stelle e sarò Re!";
+            } else {
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Un vero Re non smette mai di perfezionarsi!";
+            }
+            Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());	
+            
             UpdateStarsLabel();
 
             GameManager.instance.setLevelStatisticsWithStars(_levelID, _levelCurrentScore);
