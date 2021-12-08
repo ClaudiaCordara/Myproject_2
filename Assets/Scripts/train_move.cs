@@ -118,10 +118,18 @@ public class train_move : MonoBehaviour
                     }
                 }
             } else if (DialogPanelResult.activeSelf) {
-                if (isPuppetSpeaking) {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH1");
+                if (puppetStatus == -1) {
+                    if (isPuppetSpeaking) {
+                        GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeS1");
+                    } else {
+                        GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeS2");
+                    }
                 } else {
-                    GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH2");
+                    if (isPuppetSpeaking) {
+                        GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH1");
+                    } else {
+                        GameObject.Find("PrincipeDeiSuoniDialogResult").GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePrefix+"PrincipeH2");
+                    }
                 }
             }
             animationStep++;
@@ -253,7 +261,7 @@ public class train_move : MonoBehaviour
             ShouldOpenHoverlay = true;
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Risposta sbagliata! La parola “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nNon mollare!";
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh risposta sbagliata, “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
             audioManager.instance.PlayWrong();
             Handheld.Vibrate(); // Facciamo vibrare il dispositivo quando si verifica un errore // Dalla letteratura è utile inserire feedback aptici!
         }
@@ -288,17 +296,17 @@ public class train_move : MonoBehaviour
             if (_levelCurrentScore > 8) {
                 // 3 stelle
                 gainedStars = 3;
-                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars3");
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("3S");
             } else if (_levelCurrentScore > 6) {
                 // 2 stelle
                 gainedStars = 2;
-                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars2");
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("2S");
             } else if (_levelCurrentScore > 4) {
                 // 1 stella
                 gainedStars = 1;
-                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars1");
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("1S");
             } else {
-                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("stars0");
+                GameObject.Find("StarsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("0S");
             }
 
             PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);	
@@ -308,10 +316,17 @@ public class train_move : MonoBehaviour
                 if (_levelCurrentScore > 4) {
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti! Ce la hai fatta. Altre "+remainingStars.ToString()+" stelle e sarò Re!";
                 } else {
+                    puppetStatus = -1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
                 }
             } else {
-                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Un vero Re non smette mai di perfezionarsi!";
+                if (_levelCurrentScore > 4) {
+                    puppetStatus = 1;
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Un vero Re non smette mai di perfezionarsi!";
+                } else {
+                    puppetStatus = -1;
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
+                }
             }
             Debug.Log("Hai guadagnato "+gainedStars.ToString()+" - "+_levelCurrentScore.ToString());	
             
