@@ -261,7 +261,7 @@ public class train_move : MonoBehaviour
             ShouldOpenHoverlay = true;
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh risposta sbagliata, “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, risposta sbagliata. “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
             audioManager.instance.PlayWrong();
             Handheld.Vibrate(); // Facciamo vibrare il dispositivo quando si verifica un errore // Dalla letteratura è utile inserire feedback aptici!
         }
