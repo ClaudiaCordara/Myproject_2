@@ -23,6 +23,8 @@ public class train_move : MonoBehaviour
 
     public GameObject DialogPanel;
     public GameObject DialogPanelResult;
+
+    public bool pauseMenuIsOpen = false;
     
     const float StartSpeed = 3.0f;    
     public float speed = StartSpeed;
@@ -166,7 +168,7 @@ public class train_move : MonoBehaviour
 
 
 
-        if (swipeDelta.magnitude > 25 & !isLevelComplete & !trainIsMoving) {
+        if (swipeDelta.magnitude > 25 & !isLevelComplete & !trainIsMoving & !pauseMenuIsOpen) {
             //which direction?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
@@ -385,6 +387,12 @@ public class train_move : MonoBehaviour
                 DidCompleteLevel();
             }
         }
+    }
+    public void OpenMenuPause() {
+        pauseMenuIsOpen = true;
+    }
+    public void CloseMenuPause() {
+        pauseMenuIsOpen = false;
     }
 
     public void OpenMenu() {
