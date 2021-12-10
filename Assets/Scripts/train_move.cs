@@ -59,6 +59,7 @@ public class train_move : MonoBehaviour
     private bool isPuppetSpeaking = false;
     private int puppetStatus = 0;
     private string imagePrefix = "";
+    private bool dialogIsOpen = false;
 
     void Awake () {
         _currentWordIndex = 0;
@@ -83,6 +84,8 @@ public class train_move : MonoBehaviour
         } else {
             DialogPanel.SetActive(false);
         }
+
+        StartCoroutine(CorutineStartPlaying());
     }
     
     IEnumerator CorutineAddCardQuestion() {
@@ -96,10 +99,14 @@ public class train_move : MonoBehaviour
     // Update is called once per frame
     private float nextActionTime = 0.0f;
     public float period = 0.2f;
+    public float periodOneSecond = 1000.0f;
+    public float nextActionTimeSecond = 1.0f;
     int animationStep = 0;
+    public int TrafficLightStatus = -1;
+    public bool TrafficLightShouldPlay = false;
     void Update() {
         if (Time.time > nextActionTime ) {
-            nextActionTime += period;
+            nextActionTime = Time.time + period;
             // execute block of code here
             if (DialogPanel.activeSelf) {
                 if (isPuppetSpeaking) {
@@ -140,8 +147,6 @@ public class train_move : MonoBehaviour
             }
             if (animationStep > 999) { animationStep = 0; }
         }
-
-
 
         //tap = swipeLeft = swipeRight = false;
         
@@ -192,6 +197,21 @@ public class train_move : MonoBehaviour
             }
             Reset();
         }
+
+        if (TrafficLightShouldPlay & !pauseMenuIsOpen & !dialogIsOpen) {
+            if (Time.time > nextActionTimeSecond) {
+                Debug.Log(Time.time);
+                nextActionTimeSecond = Time.time + periodOneSecond;
+                Debug.Log("DId tik! " + TrafficLightStatus.ToString());
+                if (TrafficLightStatus > 0) {
+                    TrafficLightStatus = TrafficLightStatus -1;
+                    SetTrafficLight(TrafficLightStatus);
+                } else { // tempo scaduto!
+                    TrafficLightShouldPlay = false;
+                    ResetQuestionNoAnswer();
+                }
+            }
+        }
         
 
         //movimento effettivo del treno
@@ -208,6 +228,7 @@ public class train_move : MonoBehaviour
             if (distanceTravelled > 5 && flagCardUpdate == 1) {
                 DidCompleteQuestion();
                 flagCardUpdate = 0;
+                SetTrafficLight(5);
             }
 
             if (distanceTravelled > 25) {
@@ -225,6 +246,7 @@ public class train_move : MonoBehaviour
                     audioManager.instance.PlaySoundCard(_currentCard.clip);
                     shouldPlayWord = false;
                 }
+                TrafficLightShouldPlay = true;
             }
         }
     }
@@ -233,8 +255,7 @@ public class train_move : MonoBehaviour
         _currentCard = DeckManager.instance.deck[_currentWordIndex];
         Debug.Log(_currentCard.name);
         //faccio le stesse cose di prima programmate da Andrea, ma LEGGE la parola nella funzione "update()" OK! Ho aggiunto epr evitare che la parola venisse riprodotta all'infinito
-        if (_currentCard.IsAudio)
-        {
+        if (_currentCard.IsAudio) {
             shouldPlayWord = true;
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
@@ -244,11 +265,24 @@ public class train_move : MonoBehaviour
         }
     }
 
+    void ResetQuestionNoAnswer() {
+        DialogPanel.SetActive(true);
+        ShouldOpenHoverlay = true;
+        Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer! - ANSWER NOT GIVEN");
+        puppetStatus = -1;
+        GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, risposta sbagliata. “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
+        audioManager.instance.PlayWrong();
+        Handheld.Vibrate();
+        DialogPanel.SetActive(false);
+        DidCompleteQuestion();
+    }
+
 
     bool lastSwipeWasSoft = false;
     private void DidSwipe(bool isSoft) {
         lastSwipeWasSoft = isSoft;
         DialogPanel.SetActive(true);
+        dialogIsOpen = true;
        if (_currentCard.soft == isSoft) {
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Correct Answer!");
             _levelCurrentScore++;
@@ -339,6 +373,12 @@ public class train_move : MonoBehaviour
             GameManager.instance.currentLevel = GameManager.instance.currentLevel+1;
         }
     }
+
+
+    private void SetTrafficLight(int t) {
+        if (t > 5) { t = 5; }
+        GameObject.Find("TrafficLight").GetComponent<Image>().sprite = Resources.Load<Sprite>("T"+t.ToString());
+    }
     
     IEnumerator CorutineNextLevelPlay() {
         yield return new WaitForSeconds(1);
@@ -373,6 +413,7 @@ public class train_move : MonoBehaviour
         SceneManager.LoadScene(2);
     }
     public void closeDialog() {
+        dialogIsOpen = false;
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
@@ -387,6 +428,8 @@ public class train_move : MonoBehaviour
                 DidCompleteLevel();
             }
         }
+
+        StartCoroutine(CorutineStartPlaying());
     }
     public void OpenMenuPause() {
         pauseMenuIsOpen = true;
@@ -413,5 +456,12 @@ public class train_move : MonoBehaviour
         yield return new WaitForSeconds(1);
         GameManager.instance.currentLevel = levelNumber;
         SceneManager.LoadScene(2);
+    }
+
+    IEnumerator CorutineStartPlaying() {
+        yield return new WaitForSeconds(1);
+        TrafficLightStatus = 6;
+        SetTrafficLight(5);
+        TrafficLightShouldPlay = true;
     }
 }
