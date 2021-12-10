@@ -317,7 +317,7 @@ public class train_move : MonoBehaviour
             int remainingStars = 30-PlayerPrefs.GetInt("GameTotalStars");
             if (remainingStars > 0) {
                 if (_levelCurrentScore > 4) {
-                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti! Ce la hai fatta. Altre "+remainingStars.ToString()+" stelle e sarò Re!";
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10.\n Altre "+remainingStars.ToString()+" stelle e sarò Re!";
                 } else {
                     puppetStatus = -1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
