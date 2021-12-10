@@ -84,4 +84,9 @@ public class MainMenu : MonoBehaviour {
         GameObject.Find("enableSCcb").GetComponent<Image>().sprite = Resources.Load<Sprite>("checkbox-" + (DeckManager.instance.allowWordsSC ? "true" : "false"));
         GameObject.Find("DifficultySlider").GetComponent<Slider>().value = DeckManager.instance.levelDifficulty;
     }
+
+
+    public void openCreditsPage() {
+        UnityEngine.Application.OpenURL("https://www.andreacarpi.it/pprojects/Il-Principe-dei-Suoni/?from=unityapp");
+    }
 }

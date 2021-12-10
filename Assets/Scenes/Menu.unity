@@ -3261,7 +3261,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 701033192}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OpenCredits
+        m_MethodName: openCreditsPage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
