@@ -60,6 +60,7 @@ public class train_move : MonoBehaviour
     private int puppetStatus = 0;
     private string imagePrefix = "";
     private bool dialogIsOpen = false;
+    private bool isIntroDialogOpen = false;
 
     void Awake () {
         _currentWordIndex = 0;
@@ -80,8 +81,10 @@ public class train_move : MonoBehaviour
 
         if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
             DialogPanel.SetActive(true);
+            isIntroDialogOpen = true;
         } else {
             DialogPanel.SetActive(false);
+            isIntroDialogOpen = false;
         }
 
         StartCoroutine(CorutineStartPlaying());
@@ -198,7 +201,7 @@ public class train_move : MonoBehaviour
             Reset();
         }
 
-        if (TrafficLightShouldPlay & !pauseMenuIsOpen & !dialogIsOpen & !isLevelComplete) {
+        if (TrafficLightShouldPlay & !pauseMenuIsOpen & !dialogIsOpen & !isLevelComplete & !isIntroDialogOpen) {
             if (Time.time > nextActionTimeSecond) {
                 Debug.Log(Time.time);
                 nextActionTimeSecond = Time.time + periodOneSecond;
@@ -431,21 +434,24 @@ public class train_move : MonoBehaviour
         }
         SceneManager.LoadScene(2);
     }
-    public void closeDialog() {{
+    public void closeDialog() {
         dialogIsOpen = false;
+        Debug.Log("Asked 2 close dialog");
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
                 GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Scorri a destra se una parola è dolce, invece scorri a sinistra se una parola è dura!";
                 PlayerPrefs.SetInt("GameShouldHideTutorial", 1);
                 PlayerPrefs.Save();
             } else {
-                DialogPanel.SetActive(false);                }
-            } else {
-                DialogPanel.SetActive(false);
+                DialogPanel.SetActive(false);     
                 if (_currentWordIndex > 9) {
                     DidCompleteLevel();
                 }
+                isIntroDialogOpen = false;
+                StartCoroutine(CorutineStartPlaying());
             }
+        } else {
+            DialogPanel.SetActive(false);   
             StartCoroutine(CorutineStartPlaying());
         }
     }

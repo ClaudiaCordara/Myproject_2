@@ -13,23 +13,26 @@ public class MainMenu : MonoBehaviour {
     public void Start() {
         Debug.Log(PlayerPrefs.HasKey("GameAllowWordsC"));
         if (!PlayerPrefs.HasKey("GameAllowWordsC")) {
-            PlayerPrefs.SetInt("GameAllowWordsC", 1);
-            PlayerPrefs.SetInt("GameAllowWordsG", 1);
-            PlayerPrefs.SetInt("GameAllowWordsSc", 1);
-            PlayerPrefs.SetInt("GameDifficulty", 1);
-            PlayerPrefs.SetInt("TotalStarsLabel", 0);
-            PlayerPrefs.GetInt("GameTotalStars", 0);
-            PlayerPrefs.Save();
+            ResetGame();
         }
-        PlayerPrefs.SetInt("GameTotalStars", 29);
         UpdateStarsLabel();
+        PlayerPrefs.SetInt("GameShouldHideTutorial", 0); 
 
         if (PlayerPrefs.GetInt("GameTotalStars") > 30) {
             GameObject.Find("PrincipeImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeN1");
             GameObject.Find("PrincipeOptionsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeI1");
         }
     }
-
+    public void ResetGame() {
+        PlayerPrefs.SetInt("GameAllowWordsC", 1);
+        PlayerPrefs.SetInt("GameAllowWordsG", 1);
+        PlayerPrefs.SetInt("GameAllowWordsSc", 1);
+        PlayerPrefs.SetInt("GameDifficulty", 1);
+        PlayerPrefs.SetInt("TotalStarsLabel", 0);
+        PlayerPrefs.SetInt("GameTotalStars", 0);
+        PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
+        PlayerPrefs.Save();
+    }
     public void UpdateStarsLabel() {	
         GameObject.Find("TotalStarsLabel").GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetInt("GameTotalStars").ToString();	
     }
