@@ -65,7 +65,6 @@ public class train_move : MonoBehaviour
         _currentWordIndex = 0;
         _levelID = GameManager.instance.currentLevel;
         _levelPreviusScore = GameManager.instance.getStarsForLevel(_levelID);
-
     }
    
     // Start is called before the first frame update
@@ -104,6 +103,7 @@ public class train_move : MonoBehaviour
     int animationStep = 0;
     public int TrafficLightStatus = -1;
     public bool TrafficLightShouldPlay = false;
+    public bool shouldStartPlayingCorutine = true;
     void Update() {
         if (Time.time > nextActionTime ) {
             nextActionTime = Time.time + period;
@@ -198,11 +198,10 @@ public class train_move : MonoBehaviour
             Reset();
         }
 
-        if (TrafficLightShouldPlay & !pauseMenuIsOpen & !dialogIsOpen) {
+        if (TrafficLightShouldPlay & !pauseMenuIsOpen & !dialogIsOpen & !isLevelComplete) {
             if (Time.time > nextActionTimeSecond) {
                 Debug.Log(Time.time);
                 nextActionTimeSecond = Time.time + periodOneSecond;
-                Debug.Log("DId tik! " + TrafficLightStatus.ToString());
                 if (TrafficLightStatus > 0) {
                     TrafficLightStatus = TrafficLightStatus -1;
                     SetTrafficLight(TrafficLightStatus);
@@ -229,6 +228,7 @@ public class train_move : MonoBehaviour
                 DidCompleteQuestion();
                 flagCardUpdate = 0;
                 SetTrafficLight(5);
+                TrafficLightShouldPlay = false;
             }
 
             if (distanceTravelled > 25) {
@@ -246,7 +246,10 @@ public class train_move : MonoBehaviour
                     audioManager.instance.PlaySoundCard(_currentCard.clip);
                     shouldPlayWord = false;
                 }
-                TrafficLightShouldPlay = true;
+                if (shouldStartPlayingCorutine) {
+                    shouldStartPlayingCorutine = false;
+                    StartCoroutine(CorutineStartPlaying());
+                }
             }
         }
     }
@@ -270,7 +273,7 @@ public class train_move : MonoBehaviour
         ShouldOpenHoverlay = true;
         Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer! - ANSWER NOT GIVEN");
         puppetStatus = -1;
-        GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, risposta sbagliata. “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
+        GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, tempo scaduto!\n“"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nForza, non mollare!";
         audioManager.instance.PlayWrong();
         Handheld.Vibrate();
         DialogPanel.SetActive(false);
@@ -293,12 +296,14 @@ public class train_move : MonoBehaviour
             if (ShouldShowHoverlayOnCorrectAnswer) {
                 ShouldOpenHoverlay = true;
                 ShouldShowHoverlayOnCorrectAnswer = false;
-            }
+            } else if (_currentWordIndex > 9) {
+                DidCompleteLevel();
+            } 
         } else {
             ShouldOpenHoverlay = true;
             Debug.Log("DID COMPLETEQUESTION! DidSwipe! Wrong Answer!");
             puppetStatus = -1;
-            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, risposta sbagliata. “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \n Forza, non mollare!";
+            GameObject.Find("TextDialogLabel").GetComponent<TextMeshProUGUI>().text = "Oh, risposta sbagliata. “"+_currentCard.name+"” è una parola "+(_currentCard.soft?"dolce":"dura")+". \nForza, non mollare!";
             audioManager.instance.PlayWrong();
             Handheld.Vibrate(); // Facciamo vibrare il dispositivo quando si verifica un errore // Dalla letteratura è utile inserire feedback aptici!
         }
@@ -307,6 +312,9 @@ public class train_move : MonoBehaviour
 
 
     private void DidCompleteQuestion() {
+        TrafficLightShouldPlay = false;
+        TrafficLightStatus = 5;
+        SetTrafficLight(TrafficLightStatus);
         _currentWordIndex++;	
         if (_currentWordIndex < 10) {	
            GameObject.Find("QuestionIndexLabel").GetComponent<TextMeshProUGUI>().text = (_currentWordIndex+1).ToString()+"/10";	
@@ -318,8 +326,6 @@ public class train_move : MonoBehaviour
         if (_currentWordIndex < 10) {
             addCardQuestion();
             Debug.Log("DidCOMPLETE QUESTIOn! "+_currentWordIndex.ToString()); 
-        } else {
-            DidCompleteLevel();
         }
     }
 
@@ -351,11 +357,14 @@ public class train_move : MonoBehaviour
             int remainingStars = 30-PlayerPrefs.GetInt("GameTotalStars");
             if (remainingStars > 0) {
                 if (_levelCurrentScore > 4) {
-                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10.\n Altre "+remainingStars.ToString()+" stelle e sarò Re!";
+                    puppetStatus = 1;
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nAltre "+remainingStars.ToString()+" stelle e sarò Re!";
                 } else {
                     puppetStatus = -1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
                 }
+            } else if (PlayerPrefs.GetInt("GameTotalStars") - gainedStars < 30) {
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nGrazie al tuo aiuto sono finalmente il Re dei Suoni!";
             } else {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
@@ -377,7 +386,17 @@ public class train_move : MonoBehaviour
 
     private void SetTrafficLight(int t) {
         if (t > 5) { t = 5; }
+        if (trainIsMoving) { t = 5; TrafficLightStatus = 5; }
         GameObject.Find("TrafficLight").GetComponent<Image>().sprite = Resources.Load<Sprite>("T"+t.ToString());
+        if (trainIsMoving) {
+            var tempColor = GameObject.Find("TrafficLight").GetComponent<Image>().color;
+            tempColor.a = 0.4f;
+            GameObject.Find("TrafficLight").GetComponent<Image>().color = tempColor;
+        } else {
+            var tempColor = GameObject.Find("TrafficLight").GetComponent<Image>().color;
+            tempColor.a = 1f;
+            GameObject.Find("TrafficLight").GetComponent<Image>().color = tempColor;
+        }
     }
     
     IEnumerator CorutineNextLevelPlay() {
@@ -386,8 +405,7 @@ public class train_move : MonoBehaviour
     }
 
 
-    private void Reset()
-    {
+    private void Reset() {
         startTouch = swipeDelta = Vector2.zero;
         isDraging = false;
     }
@@ -400,7 +418,6 @@ public class train_move : MonoBehaviour
     public void OpenNextLevel() {
         if (isLevelComplete) {
             StartCoroutine(CorutineNextLevelPlay());
-
         }
         Debug.Log("OPENING NEXT LEVEL! ");
         //anotherScript.PrepareLevel(levelNumber);
@@ -412,7 +429,7 @@ public class train_move : MonoBehaviour
         }
         SceneManager.LoadScene(2);
     }
-    public void closeDialog() {
+    public void closeDialog() {{
         dialogIsOpen = false;
         if (_currentWordIndex == 0) {
             if (PlayerPrefs.GetInt("GameShouldHideTutorial")==0) {
@@ -420,16 +437,15 @@ public class train_move : MonoBehaviour
                 PlayerPrefs.SetInt("GameShouldHideTutorial", 1);
                 PlayerPrefs.Save();
             } else {
+                DialogPanel.SetActive(false);                }
+            } else {
                 DialogPanel.SetActive(false);
+                if (_currentWordIndex > 9) {
+                    DidCompleteLevel();
+                }
             }
-        } else {
-            DialogPanel.SetActive(false);
-            if (_currentWordIndex > 9) {
-                DidCompleteLevel();
-            }
+            StartCoroutine(CorutineStartPlaying());
         }
-
-        StartCoroutine(CorutineStartPlaying());
     }
     public void OpenMenuPause() {
         pauseMenuIsOpen = true;
@@ -460,8 +476,13 @@ public class train_move : MonoBehaviour
 
     IEnumerator CorutineStartPlaying() {
         yield return new WaitForSeconds(1);
-        TrafficLightStatus = 6;
+        if (_currentWordIndex == 0) {
+            TrafficLightStatus = 6;
+        } else {
+            TrafficLightStatus = 5;
+        }
         SetTrafficLight(5);
         TrafficLightShouldPlay = true;
+        shouldStartPlayingCorutine = true;
     }
 }

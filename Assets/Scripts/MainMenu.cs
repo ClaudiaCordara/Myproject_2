@@ -11,7 +11,6 @@ public class MainMenu : MonoBehaviour {
 
     public GameObject imageObject;
     public void Start() {
-        Debug.Log("Is first aa " );
         Debug.Log(PlayerPrefs.HasKey("GameAllowWordsC"));
         if (!PlayerPrefs.HasKey("GameAllowWordsC")) {
             PlayerPrefs.SetInt("GameAllowWordsC", 1);
@@ -19,8 +18,10 @@ public class MainMenu : MonoBehaviour {
             PlayerPrefs.SetInt("GameAllowWordsSc", 1);
             PlayerPrefs.SetInt("GameDifficulty", 1);
             PlayerPrefs.SetInt("TotalStarsLabel", 0);
+            PlayerPrefs.GetInt("GameTotalStars", 0);
             PlayerPrefs.Save();
         }
+        PlayerPrefs.SetInt("GameTotalStars", 29);
         UpdateStarsLabel();
 
         if (PlayerPrefs.GetInt("GameTotalStars") > 30) {
