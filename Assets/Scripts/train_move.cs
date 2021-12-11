@@ -214,7 +214,7 @@ public class train_move : MonoBehaviour
         
 
         //movimento effettivo del treno
-        if (trainIsMoving) {
+        if (trainIsMoving & !pauseMenuIsOpen) {
             distanceTravelled += speed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
             transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
@@ -234,6 +234,8 @@ public class train_move : MonoBehaviour
             if (distanceTravelled > 25) {
                 if (_currentWordIndex < 10 & _currentWordIndex > 0) {
                     closeDialog();
+                } else if (_currentWordIndex > 9) {
+                    DidCompleteLevel();
                 }
             }
             
@@ -364,7 +366,7 @@ public class train_move : MonoBehaviour
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
                 }
             } else if (PlayerPrefs.GetInt("GameTotalStars") - gainedStars < 30) {
-                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nGrazie al tuo aiuto sono finalmente il Re dei Suoni!";
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\n Grazie a te sono diventato il Re dei Suoni!";
             } else {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
