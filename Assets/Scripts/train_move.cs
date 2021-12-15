@@ -242,7 +242,7 @@ public class train_move : MonoBehaviour
                 }
             }
             
-            if (V3Equal(transform.position, startPosition)) {
+            if (V3Equal(transform.position, startPosition) & !isIntroDialogOpen) {
                 trainIsMoving = false; //riattiva possibilità input del player
                 flagCardUpdate = 1;
                 speed = StartSpeed;
