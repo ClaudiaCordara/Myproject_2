@@ -12,9 +12,9 @@ public class DeckManager : MonoBehaviour
 	private string[] Names_hard= new string[53]{"caffe", "cane", "cappello", "caraffe", "case", "castagna", "cavalli", "cavi", "chela", "chiave", "chiavi", "chiodi", "chitarra", "coccinella", "coccodrillo",  "coda",  "collo",  "colombo",  "corda",  "corvo",  "cozza",  "cuccia", "cuore", "cuscino", "gallina", "gambe", "gambero", "gambo", "ganci", "gatto", "ghepardo", "gheriglio", "ghiacciolo", "ghiande", "ghiro", "gobba", "gomitolo", "gomme", "gorilla", "gregge", "guanto", "gufo", "guinzaglio", "scacchi", "scacchiera", "scarpe", "scatola", "scheletro", "schiuma", "scoiattolo", "scopa", "scorpione", "scudo"};
 	private string[] Names_soft= new string[21]{"cellula", "cerotto", "cervello", "ciabatta","cicogna", "cielo", "cigno", "cinghiale", "cintura",  "cipolla", "gelato", "gemelli", "gengiva", "genio", "gigante", "ginocchio", "giraffa", "gnomi", "sceriffo", "sciarpa", "scimmia"};
 
-	private string[] LevelTypeWithDifficultyLow = new string[10]{"A","S","S","S","S","S","S","S","S","S"}; // 10% audio
-	private string[] LevelTypeWithDifficultyMed = new string[10]{"A","A","A","S","S","S","S","S","S","S"}; // 30% audio
-	private string[] LevelTypeWithDifficultyHig = new string[10]{"A","A","A","A","A","S","S","S","S","S"}; // 50% audio
+	private string[] LevelTypeWithDifficultyLow = new string[10]{"S","S","S","S","S","S","S","S","S","A"}; // 10% audio
+	private string[] LevelTypeWithDifficultyMed = new string[10]{"S","S","S","S","S","S","S","A","A","A"}; // 30% audio
+	private string[] LevelTypeWithDifficultyHig = new string[10]{"S","S","S","S","S","A","A","A","A","A"}; // 50% audio
 	public int cardPerDeck = 10;
 	public int deckLength = 74;
 
@@ -140,8 +140,8 @@ public class DeckManager : MonoBehaviour
 		// Shuffling again deck
 		replacements = UnityEngine.Random.Range(5, 20);
 	    for (int i=0; i < replacements; i++){
-		    int A = UnityEngine.Random.Range(0, cardPerDeck - 1);
-		    int B = UnityEngine.Random.Range(0, cardPerDeck - 1);
+		    int A = UnityEngine.Random.Range(1, cardPerDeck - 1);
+		    int B = UnityEngine.Random.Range(1, cardPerDeck - 1);
 
 		    Card a = deck[A];
 		    Card b = deck[B];
