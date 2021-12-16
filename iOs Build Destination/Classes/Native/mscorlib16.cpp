@@ -34501,7 +34501,7 @@ IL_020b:
 		int32_t L_74 = V_1;
 		NullCheck(L_73);
 		bool L_75;
-		L_75 = VirtFuncInvoker1< bool, int32_t >::Invoke(10 /* System.Boolean System.Threading.WaitHandle::WaitOne(System.Int32) */, L_73, L_74);
+		L_75 = VirtFuncInvoker1< bool, int32_t >::Invoke(11 /* System.Boolean System.Threading.WaitHandle::WaitOne(System.Int32) */, L_73, L_74);
 		goto IL_001a;
 	}
 }

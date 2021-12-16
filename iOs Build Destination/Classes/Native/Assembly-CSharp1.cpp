@@ -391,6 +391,8 @@ struct U3CRevealWordsU3Ed__8_tF7649A9A0F92FFA0D69DB3B69680480E1B50D408;
 struct U3CDisplayTextMeshFloatingTextU3Ed__16_tACCF2F4E02674FBB7D0A61F908094C4EC0DAD2A2;
 // TMPro.Examples.TextMeshProFloatingText/<DisplayTextMeshProFloatingText>d__15
 struct U3CDisplayTextMeshProFloatingTextU3Ed__15_tF7B0AC090E8E1BC19444DC46DEA61B2D608F7E20;
+// TextureScale/ThreadData
+struct ThreadData_t48129B9ABFDA8AC6858043DE45A3370AE88A9B7A;
 // TMPro.Examples.VertexColorCycler/<AnimateVertexColors>d__3
 struct U3CAnimateVertexColorsU3Ed__3_tB3AD1CDAF88FD5FB6786CD89058781C6BDF67DAF;
 // TMPro.Examples.VertexJitter/<AnimateVertexColors>d__11
@@ -2180,6 +2182,34 @@ public:
 	inline void set_U3CvisibleCountU3E5__5_6(int32_t value)
 	{
 		___U3CvisibleCountU3E5__5_6 = value;
+	}
+};
+
+
+// TextureScale/ThreadData
+struct ThreadData_t48129B9ABFDA8AC6858043DE45A3370AE88A9B7A  : public RuntimeObject
+{
+public:
+	// System.Int32 TextureScale/ThreadData::start
+	int32_t ___start_0;
+	// System.Int32 TextureScale/ThreadData::end
+	int32_t ___end_1;
+
+public:
+	inline static int32_t get_offset_of_start_0() { return static_cast<int32_t>(offsetof(ThreadData_t48129B9ABFDA8AC6858043DE45A3370AE88A9B7A, ___start_0)); }
+	inline int32_t get_start_0() const { return ___start_0; }
+	inline int32_t* get_address_of_start_0() { return &___start_0; }
+	inline void set_start_0(int32_t value)
+	{
+		___start_0 = value;
+	}
+
+	inline static int32_t get_offset_of_end_1() { return static_cast<int32_t>(offsetof(ThreadData_t48129B9ABFDA8AC6858043DE45A3370AE88A9B7A, ___end_1)); }
+	inline int32_t get_end_1() const { return ___end_1; }
+	inline int32_t* get_address_of_end_1() { return &___end_1; }
+	inline void set_end_1(int32_t value)
+	{
+		___end_1 = value;
 	}
 };
 
@@ -20522,6 +20552,30 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject * U3CDisplayTextMeshProFloating
 	{
 		RuntimeObject * L_0 = __this->get_U3CU3E2__current_1();
 		return L_0;
+	}
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+// System.Void TextureScale/ThreadData::.ctor(System.Int32,System.Int32)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ThreadData__ctor_mA2E955D69EA603EB22B6B27718C8F195C3825D83 (ThreadData_t48129B9ABFDA8AC6858043DE45A3370AE88A9B7A * __this, int32_t ___s0, int32_t ___e1, const RuntimeMethod* method)
+{
+	{
+		// public ThreadData(int s, int e)
+		Object__ctor_m88880E0413421D13FD95325EDCE231707CE1F405(__this, /*hidden argument*/NULL);
+		// start = s;
+		int32_t L_0 = ___s0;
+		__this->set_start_0(L_0);
+		// end = e;
+		int32_t L_1 = ___e1;
+		__this->set_end_1(L_1);
+		// }
+		return;
 	}
 }
 #ifdef __clang__

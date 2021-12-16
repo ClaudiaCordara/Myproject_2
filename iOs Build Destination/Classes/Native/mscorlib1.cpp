@@ -33294,7 +33294,7 @@ IL_004e:
 		__this->set_m_kernelEvent_3((ManualResetEvent_t9E2ED486907E3A16122ED4E946534E4DD6B5A7BA *)NULL);
 		ManualResetEvent_t9E2ED486907E3A16122ED4E946534E4DD6B5A7BA * L_13 = V_1;
 		NullCheck(L_13);
-		VirtActionInvoker0::Invoke(11 /* System.Void System.Threading.WaitHandle::Close() */, L_13);
+		VirtActionInvoker0::Invoke(12 /* System.Void System.Threading.WaitHandle::Close() */, L_13);
 	}
 
 IL_0072:
