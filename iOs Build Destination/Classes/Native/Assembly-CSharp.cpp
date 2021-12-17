@@ -23247,6 +23247,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MainMenu_ResetGame_m610CAB91FCFECF824F83
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MainMenu_UpdateStarsLabel_mBB114DA8DCD7779B84C6EFDAE21795F9C0957AC5 (MainMenu_tEB11F5A993C42E93B585FBB65C9E92EC91C5707C * __this, const RuntimeMethod* method);
 // System.Int32 UnityEngine.PlayerPrefs::GetInt(System.String)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t PlayerPrefs_GetInt_m6BCF9F844298D1810A68BAF23ECBA68C6960A986 (String_t* ___key0, const RuntimeMethod* method);
+// System.Void MainMenu::syncToggleWords()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MainMenu_syncToggleWords_m445FE914A0D823B2159077B5F68605C731FF3931 (MainMenu_tEB11F5A993C42E93B585FBB65C9E92EC91C5707C * __this, const RuntimeMethod* method);
 // !!0 UnityEngine.GameObject::GetComponent<TMPro.TextMeshProUGUI>()
 inline TextMeshProUGUI_tCC5BE8A76E6E9AF92521A462E8D81ACFBA7C85F1 * GameObject_GetComponent_TisTextMeshProUGUI_tCC5BE8A76E6E9AF92521A462E8D81ACFBA7C85F1_m252F6E57D2F18ECBCD5A4A3FD7053FF797617659 (GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * __this, const RuntimeMethod* method)
 {
@@ -23262,8 +23264,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCorutineOpenCreditsU3Ed__6__ctor_mB20
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCorutineOpenNextLevelU3Ed__7__ctor_m4C301825E7A912ADFBBBAEBDBBE3EEA168DFF5F5 (U3CCorutineOpenNextLevelU3Ed__7_tB522D4691E12C3580A886AD05385D0659A7BE600 * __this, int32_t ___U3CU3E1__state0, const RuntimeMethod* method);
 // System.Void DeckManager::ToggleWordsC()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DeckManager_ToggleWordsC_m9947129FD0DD605B06708370F5800050871C880E (DeckManager_t10E3F7A5FB2C74AB2B67F0ABDA437A036B9604E3 * __this, const RuntimeMethod* method);
-// System.Void MainMenu::syncToggleWords()
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MainMenu_syncToggleWords_m445FE914A0D823B2159077B5F68605C731FF3931 (MainMenu_tEB11F5A993C42E93B585FBB65C9E92EC91C5707C * __this, const RuntimeMethod* method);
 // System.Void DeckManager::ToggleWordsG()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DeckManager_ToggleWordsG_mBC0B9F868717888908FCDD05A732572476C6EF00 (DeckManager_t10E3F7A5FB2C74AB2B67F0ABDA437A036B9604E3 * __this, const RuntimeMethod* method);
 // System.Void DeckManager::ToggleWordsSC()
@@ -23802,6 +23802,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AudioSource_PlayOneShot_mA90B136041A61C3
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void cam_move_Refresh_m42950D96D1E4E472DCE3556AA8E7DBE5641E2E6B (cam_move_tB9ED5830064D92F37DD0943BD07EEB2597710D47 * __this, const RuntimeMethod* method);
 // System.Void cam_move_castle::Refresh()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void cam_move_castle_Refresh_m22357267D8ACA773F53E5B1E9DB75C5E35DCDDEF (cam_move_castle_t39AA126ABCBA223B4A7F0771CB98A2E95F37D277 * __this, const RuntimeMethod* method);
+// UnityEngine.Quaternion PathCreation.VertexPath::GetRotation(System.Single,PathCreation.EndOfPathInstruction)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  VertexPath_GetRotation_m5F924A0F5F6CA1908A2D6486D52C1CF45591ED53 (VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * __this, float ___t0, int32_t ___endOfPathInstruction1, const RuntimeMethod* method);
 // UnityEngine.Quaternion UnityEngine.Quaternion::op_Multiply(UnityEngine.Quaternion,UnityEngine.Quaternion)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  Quaternion_op_Multiply_m5C7A60AC0CDCA2C5E2F23E45FBD1B15CA152D7B0 (Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  ___lhs0, Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  ___rhs1, const RuntimeMethod* method);
 // System.Single UnityEngine.Vector3::SqrMagnitude(UnityEngine.Vector3)
@@ -23835,8 +23837,6 @@ inline PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * GameObject_GetCom
 {
 	return ((  PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * (*) (GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 *, const RuntimeMethod*))GameObject_GetComponent_TisRuntimeObject_mCE43118393A796C759AC5D43257AB2330881767D_gshared)(__this, method);
 }
-// UnityEngine.Quaternion PathCreation.VertexPath::GetRotation(System.Single,PathCreation.EndOfPathInstruction)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  VertexPath_GetRotation_m5F924A0F5F6CA1908A2D6486D52C1CF45591ED53 (VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * __this, float ___t0, int32_t ___endOfPathInstruction1, const RuntimeMethod* method);
 // System.Void train_move::SetTrafficLight(System.Int32)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void train_move_SetTrafficLight_mB4822AA7AB47B40FC15D465EC7AD97FE2AF4CF80 (train_move_tBC23A6DE0D01AB8C1E74D14F68DAD0015C866473 * __this, int32_t ___t0, const RuntimeMethod* method);
 // System.Void train_move::ResetQuestionNoAnswer()
@@ -28390,6 +28390,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MainMenu_ResetGame_m610CAB91FCFECF824F83
 		PlayerPrefs_SetInt_m0C5C977E960B9CA8F9AB73AF4129C3DCABD067B6(_stringLiteral4E365124611176E074EE111537BA60A8D6DC98B5, 0, /*hidden argument*/NULL);
 		// PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
 		PlayerPrefs_SetInt_m0C5C977E960B9CA8F9AB73AF4129C3DCABD067B6(_stringLiteral2D3E5A449BADBA31ADACC481FB5420596C6D5258, 0, /*hidden argument*/NULL);
+		// syncToggleWords();
+		MainMenu_syncToggleWords_m445FE914A0D823B2159077B5F68605C731FF3931(__this, /*hidden argument*/NULL);
 		// PlayerPrefs.Save();
 		PlayerPrefs_Save_m2C1E628FA335095CD88D0DA1CB50ACC924667EEC(/*hidden argument*/NULL);
 		// }
@@ -39160,46 +39162,70 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void train_castle_Start_m8FE0FEE2AEEED775DDA7
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void train_castle_Update_m7149FCEBBEBEE19642C5305AB263A38C0FEFE978 (train_castle_tF1781A834C6079A5EB54A71C7D189ABDFDFA93A3 * __this, const RuntimeMethod* method)
 {
 	{
-		// distanceTravelled += speed * Time.deltaTime;
-		float L_0 = __this->get_distanceTravelled_7();
+		// if (speed < 7.0f)
+		float L_0 = __this->get_speed_6();
+		if ((!(((float)L_0) < ((float)(7.0f)))))
+		{
+			goto IL_001f;
+		}
+	}
+	{
+		// speed += 0.02f;
 		float L_1 = __this->get_speed_6();
-		float L_2;
-		L_2 = Time_get_deltaTime_mCC15F147DA67F38C74CE408FB5D7FF4A87DA2290(/*hidden argument*/NULL);
-		__this->set_distanceTravelled_7(((float)il2cpp_codegen_add((float)L_0, (float)((float)il2cpp_codegen_multiply((float)L_1, (float)L_2)))));
+		__this->set_speed_6(((float)il2cpp_codegen_add((float)L_1, (float)(0.0199999996f))));
+	}
+
+IL_001f:
+	{
+		// distanceTravelled += speed * Time.deltaTime;
+		float L_2 = __this->get_distanceTravelled_7();
+		float L_3 = __this->get_speed_6();
+		float L_4;
+		L_4 = Time_get_deltaTime_mCC15F147DA67F38C74CE408FB5D7FF4A87DA2290(/*hidden argument*/NULL);
+		__this->set_distanceTravelled_7(((float)il2cpp_codegen_add((float)L_2, (float)((float)il2cpp_codegen_multiply((float)L_3, (float)L_4)))));
 		// transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
-		Transform_tA8193BB29D4D2C7EC04918F3ED1816345186C3F1 * L_3;
-		L_3 = Component_get_transform_mE8496EBC45BEB1BADB5F314960F1DF1C952FA11F(__this, /*hidden argument*/NULL);
-		PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * L_4 = __this->get_pathCreator_4();
-		NullCheck(L_4);
-		VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * L_5;
-		L_5 = PathCreator_get_path_m1D2BA17B74B561BB4668D206119F238682423791(L_4, /*hidden argument*/NULL);
-		float L_6 = __this->get_distanceTravelled_7();
-		int32_t L_7 = __this->get_end_8();
+		Transform_tA8193BB29D4D2C7EC04918F3ED1816345186C3F1 * L_5;
+		L_5 = Component_get_transform_mE8496EBC45BEB1BADB5F314960F1DF1C952FA11F(__this, /*hidden argument*/NULL);
+		PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * L_6 = __this->get_pathCreator_4();
+		NullCheck(L_6);
+		VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * L_7;
+		L_7 = PathCreator_get_path_m1D2BA17B74B561BB4668D206119F238682423791(L_6, /*hidden argument*/NULL);
+		float L_8 = __this->get_distanceTravelled_7();
+		int32_t L_9 = __this->get_end_8();
+		NullCheck(L_7);
+		Vector3_t65B972D6A585A0A5B63153CF1177A90D3C90D65E  L_10;
+		L_10 = VertexPath_GetPointAtDistance_mA36ED1FC59E5ADFB18AF58BB0ADD5DAE3A622BBE(L_7, L_8, L_9, /*hidden argument*/NULL);
 		NullCheck(L_5);
-		Vector3_t65B972D6A585A0A5B63153CF1177A90D3C90D65E  L_8;
-		L_8 = VertexPath_GetPointAtDistance_mA36ED1FC59E5ADFB18AF58BB0ADD5DAE3A622BBE(L_5, L_6, L_7, /*hidden argument*/NULL);
-		NullCheck(L_3);
-		Transform_set_position_mB169E52D57EEAC1E3F22C5395968714E4F00AC91(L_3, L_8, /*hidden argument*/NULL);
-		// transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
-		Transform_tA8193BB29D4D2C7EC04918F3ED1816345186C3F1 * L_9;
-		L_9 = Component_get_transform_mE8496EBC45BEB1BADB5F314960F1DF1C952FA11F(__this, /*hidden argument*/NULL);
-		PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * L_10 = __this->get_pathCreator_4();
-		NullCheck(L_10);
-		VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * L_11;
-		L_11 = PathCreator_get_path_m1D2BA17B74B561BB4668D206119F238682423791(L_10, /*hidden argument*/NULL);
-		float L_12 = __this->get_distanceTravelled_7();
-		int32_t L_13 = __this->get_end_8();
+		Transform_set_position_mB169E52D57EEAC1E3F22C5395968714E4F00AC91(L_5, L_10, /*hidden argument*/NULL);
+		// offset = pathCreator.path.GetRotation(1);
+		PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * L_11 = __this->get_pathCreator_4();
 		NullCheck(L_11);
-		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_14;
-		L_14 = VertexPath_GetRotationAtDistance_m373C57D0071F81C1266836D63571C88EB1386BE4(L_11, L_12, L_13, /*hidden argument*/NULL);
-		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_15 = __this->get_offset_10();
-		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_16;
-		L_16 = Quaternion_op_Multiply_m5C7A60AC0CDCA2C5E2F23E45FBD1B15CA152D7B0(L_14, L_15, /*hidden argument*/NULL);
-		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_17 = __this->get_offset_10();
-		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_18;
-		L_18 = Quaternion_op_Multiply_m5C7A60AC0CDCA2C5E2F23E45FBD1B15CA152D7B0(L_16, L_17, /*hidden argument*/NULL);
-		NullCheck(L_9);
-		Transform_set_rotation_m1B5F3D4CE984AB31254615C9C71B0E54978583B4(L_9, L_18, /*hidden argument*/NULL);
+		VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * L_12;
+		L_12 = PathCreator_get_path_m1D2BA17B74B561BB4668D206119F238682423791(L_11, /*hidden argument*/NULL);
+		NullCheck(L_12);
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_13;
+		L_13 = VertexPath_GetRotation_m5F924A0F5F6CA1908A2D6486D52C1CF45591ED53(L_12, (1.0f), 0, /*hidden argument*/NULL);
+		__this->set_offset_10(L_13);
+		// transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
+		Transform_tA8193BB29D4D2C7EC04918F3ED1816345186C3F1 * L_14;
+		L_14 = Component_get_transform_mE8496EBC45BEB1BADB5F314960F1DF1C952FA11F(__this, /*hidden argument*/NULL);
+		PathCreator_tEAFF4162C74932B2FE5D882239E40D49A7F8B804 * L_15 = __this->get_pathCreator_4();
+		NullCheck(L_15);
+		VertexPath_t3571FC3C58EB92AACEB88012F6ECBDD3FC787452 * L_16;
+		L_16 = PathCreator_get_path_m1D2BA17B74B561BB4668D206119F238682423791(L_15, /*hidden argument*/NULL);
+		float L_17 = __this->get_distanceTravelled_7();
+		int32_t L_18 = __this->get_end_8();
+		NullCheck(L_16);
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_19;
+		L_19 = VertexPath_GetRotationAtDistance_m373C57D0071F81C1266836D63571C88EB1386BE4(L_16, L_17, L_18, /*hidden argument*/NULL);
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_20 = __this->get_offset_10();
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_21;
+		L_21 = Quaternion_op_Multiply_m5C7A60AC0CDCA2C5E2F23E45FBD1B15CA152D7B0(L_19, L_20, /*hidden argument*/NULL);
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_22 = __this->get_offset_10();
+		Quaternion_t6D28618CF65156D4A0AD747370DDFD0C514A31B4  L_23;
+		L_23 = Quaternion_op_Multiply_m5C7A60AC0CDCA2C5E2F23E45FBD1B15CA152D7B0(L_21, L_22, /*hidden argument*/NULL);
+		NullCheck(L_14);
+		Transform_set_rotation_m1B5F3D4CE984AB31254615C9C71B0E54978583B4(L_14, L_23, /*hidden argument*/NULL);
 		// }
 		return;
 	}
@@ -39209,7 +39235,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void train_castle__ctor_m4242D75FEDCD8E8C7942
 {
 	{
 		// public float speed = StartSpeed;
-		__this->set_speed_6((5.0f));
+		__this->set_speed_6((3.0f));
 		// private Vector3 startPosition = new Vector3(0.4f, 0, 0); //posizione iniziale trenino
 		Vector3_t65B972D6A585A0A5B63153CF1177A90D3C90D65E  L_0;
 		memset((&L_0), 0, sizeof(L_0));

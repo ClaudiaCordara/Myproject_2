@@ -16,6 +16,32 @@
             "usedInScenes": []
         },
         {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Sprite",
+            "fullManagedTypeName": "UnityEngine.Sprite",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/Menu.unity",
+                "Assets/Scenes/Levels.unity",
+                "Assets/Scenes/Treno_vecchio.unity",
+                "Assets/Scenes/Credits.unity",
+                "Assets/Scenes/Prova_terreno.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Texture2D",
+            "fullManagedTypeName": "UnityEngine.Texture2D",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/Menu.unity",
+                "Assets/Scenes/Levels.unity",
+                "Assets/Scenes/Treno_vecchio.unity",
+                "Assets/Scenes/Credits.unity",
+                "Assets/Scenes/Prova_terreno.unity"
+            ]
+        },
+        {
             "managedAssemblyName": "",
             "nativeClass": "GameManager",
             "fullManagedTypeName": "",
@@ -62,6 +88,19 @@
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Texture",
+            "fullManagedTypeName": "UnityEngine.Texture",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/Menu.unity",
+                "Assets/Scenes/Levels.unity",
+                "Assets/Scenes/Treno_vecchio.unity",
+                "Assets/Scenes/Credits.unity",
+                "Assets/Scenes/Prova_terreno.unity"
+            ]
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
@@ -353,32 +392,6 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Sprite",
-            "fullManagedTypeName": "UnityEngine.Sprite",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/Levels.unity",
-                "Assets/Scenes/Treno_vecchio.unity",
-                "Assets/Scenes/Credits.unity",
-                "Assets/Scenes/Prova_terreno.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Texture2D",
-            "fullManagedTypeName": "UnityEngine.Texture2D",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/Levels.unity",
-                "Assets/Scenes/Treno_vecchio.unity",
-                "Assets/Scenes/Credits.unity",
-                "Assets/Scenes/Prova_terreno.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "RenderSettings",
             "fullManagedTypeName": "UnityEngine.RenderSettings",
             "moduleName": "Core",
@@ -407,19 +420,6 @@
             "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "Transform",
             "fullManagedTypeName": "UnityEngine.Transform",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/Levels.unity",
-                "Assets/Scenes/Treno_vecchio.unity",
-                "Assets/Scenes/Credits.unity",
-                "Assets/Scenes/Prova_terreno.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Texture",
-            "fullManagedTypeName": "UnityEngine.Texture",
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/Menu.unity",
