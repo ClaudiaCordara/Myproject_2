@@ -257,6 +257,12 @@ public class train_move : MonoBehaviour
                 }
             }
         }
+        
+        //repetition of the audio by clicking
+        if (_currentCard.IsAudio && !trainIsMoving && Input.GetMouseButtonDown(0))
+        {
+            audioManager.instance.PlaySoundCard(_currentCard.clip);
+        }
     }
 
     void addCardQuestion() {
