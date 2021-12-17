@@ -31,6 +31,7 @@ public class MainMenu : MonoBehaviour {
         PlayerPrefs.SetInt("TotalStarsLabel", 0);
         PlayerPrefs.SetInt("GameTotalStars", 0);
         PlayerPrefs.SetInt("GameShouldHideTutorial", 0);
+        syncToggleWords();
         PlayerPrefs.Save();
     }
     public void UpdateStarsLabel() {	
