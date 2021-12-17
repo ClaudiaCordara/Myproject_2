@@ -6,7 +6,7 @@ using PathCreation;
 public class train_castle : MonoBehaviour
 {
     public PathCreator pathCreator;
-    const float StartSpeed = 5.0f;    
+    const float StartSpeed = 3.0f;    
     public float speed = StartSpeed;
     public float distanceTravelled;
     public EndOfPathInstruction end;
@@ -21,9 +21,13 @@ public class train_castle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (speed < 7.0f)
+        {
+            speed += 0.02f;
+        }
         distanceTravelled += speed * Time.deltaTime;
         transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, end);
+        offset = pathCreator.path.GetRotation(1);
         transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, end) * offset * offset;
-
     }
 }
