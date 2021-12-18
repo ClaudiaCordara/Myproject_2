@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Crow
+* source:	https://sketchfab.com/3d-models/low-poly-crow-2e24c954890d4616adc990ba2fdf6c62
+* author:	ClintonAbbott.Art (https://sketchfab.com/clintonabbott.art)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Crow" (https://sketchfab.com/3d-models/low-poly-crow-2e24c954890d4616adc990ba2fdf6c62) by ClintonAbbott.Art (https://sketchfab.com/clintonabbott.art) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low poly cloud
+* source:	https://sketchfab.com/3d-models/low-poly-cloud-7f2c213e20cd41eb9140bcbba108d83b
+* author:	lidjue (https://sketchfab.com/lidjue)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low poly cloud" (https://sketchfab.com/3d-models/low-poly-cloud-7f2c213e20cd41eb9140bcbba108d83b) by lidjue (https://sketchfab.com/lidjue) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
