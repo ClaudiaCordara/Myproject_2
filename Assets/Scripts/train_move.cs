@@ -176,7 +176,7 @@ public class train_move : MonoBehaviour
 
 
 
-        if (swipeDelta.magnitude > 25 & !isLevelComplete & !trainIsMoving & !pauseMenuIsOpen) {
+        if (swipeDelta.magnitude > 25 & !isLevelComplete & !trainIsMoving & !pauseMenuIsOpen & !isIntroDialogOpen) {
             //which direction?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
