@@ -257,10 +257,10 @@ public class train_move : MonoBehaviour
                 }
             }
         }
-        
-        //repetition of the audio by clicking
-        if (_currentCard.IsAudio && !trainIsMoving && Input.GetMouseButtonDown(0))
-        {
+    }
+
+    public void replaySoundButton() {
+        if (_currentCard.IsAudio && !trainIsMoving) {
             audioManager.instance.PlaySoundCard(_currentCard.clip);
         }
     }
@@ -273,7 +273,7 @@ public class train_move : MonoBehaviour
             shouldPlayWord = true;
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = "Ascolta la parola!";
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("speaker");
-        }else{
+        } else {
             GameObject.Find("QuestionWord").GetComponent<UnityEngine.UI.Text>().text = _currentCard.name.ToUpper();
             GameObject.Find("QuestionImage").GetComponent<Image>().sprite = _currentCard.artwork;
         }
