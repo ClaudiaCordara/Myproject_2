@@ -369,13 +369,14 @@ public class train_move : MonoBehaviour
             if (remainingStars > 0) {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
-                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Complimenti!\nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nAltre "+remainingStars.ToString()+" stelle e sarò Re!";
+                    GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Hai indovinato\n"+_levelCurrentScore.ToString()+" parole su 10 guadagnando "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nAltre "+remainingStars.ToString()+" stelle e sarò Re!";
                 } else {
                     puppetStatus = -1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
                 }
             } else if (PlayerPrefs.GetInt("GameTotalStars") - gainedStars < 30) {
-                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "nHai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\n Grazie a te sono diventato il Re dei Suoni!";
+                GameObject.Find("ButtonOpenCastle").GetComponent<Button>().gameObject.SetActive(true);
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Hai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\n Grazie a te sono diventato il Re dei Suoni!";
             } else {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
@@ -474,6 +475,15 @@ public class train_move : MonoBehaviour
     IEnumerator CorutineOpenMenu() {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(0);
+    }
+
+
+    public void OpenCastle() {
+        StartCoroutine(CorutineOpenMenu());
+    }
+    IEnumerator CorutineOpenCastle() {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(5);
     }
 
     public void OpenLevelAtIndex(int levelNumber) {
