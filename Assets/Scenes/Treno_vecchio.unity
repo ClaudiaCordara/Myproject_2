@@ -10116,6 +10116,9 @@ MonoBehaviour:
     IsSC: 0
     IsAudio: 0
   pathCreator: {fileID: 1766013556}
+  reSceneButton: {fileID: 813686513}
+  omSceneButton: {fileID: 793264931}
+  gbSceneButton: {fileID: 793264931}
   pathLeftObj: {fileID: 1766013554}
   pathRightObj: {fileID: 1282422084}
   AnswerImage: {fileID: 797072347}

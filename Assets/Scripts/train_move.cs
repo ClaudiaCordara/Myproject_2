@@ -15,6 +15,10 @@ public class train_move : MonoBehaviour
     public PathCreator pathCreator; //path che il treno seguirà
     
     //dichiaro variabili a cui associo i 2 path diversi
+  
+    public GameObject reSceneButton; 
+    public GameObject omSceneButton; 
+    public GameObject gbSceneButton; 
     public GameObject pathLeftObj; 
     public GameObject pathRightObj;
 
@@ -366,7 +370,8 @@ public class train_move : MonoBehaviour
             PlayerPrefs.SetInt("GameTotalStars" , PlayerPrefs.GetInt("GameTotalStars") + gainedStars);	
             PlayerPrefs.Save();
             int remainingStars = 30-PlayerPrefs.GetInt("GameTotalStars");
-            if (remainingStars > 0) {
+            Debug.Log("LML "+remainingStars.ToString()+" -- "+PlayerPrefs.GetInt("GameTotalStars").ToString());
+            if (remainingStars >= 1) {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Hai indovinato\n"+_levelCurrentScore.ToString()+" parole su 10 guadagnando "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\nAltre "+remainingStars.ToString()+" stelle e sarò Re!";
@@ -374,9 +379,13 @@ public class train_move : MonoBehaviour
                     puppetStatus = -1;
                     GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Anche i Re possono sbagliare!";
                 }
-            } else if (PlayerPrefs.GetInt("GameTotalStars") - gainedStars < 30) {
-                GameObject.Find("ButtonOpenCastle").GetComponent<Button>().gameObject.SetActive(true);
-                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Hai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 e hai ottenuto "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"!\n Grazie a te sono diventato il Re dei Suoni!";
+            } else if (remainingStars <= 0 & PlayerPrefs.GetInt("GameTotalStars") - gainedStars <= 30) {
+                puppetStatus = 1;
+                imagePrefix = "Q";
+                GameObject.Find("TextResultLabel").GetComponent<TextMeshProUGUI>().text = "Hai risposto correttamente a\n"+_levelCurrentScore.ToString()+" parole su 10 ottenendo "+gainedStars.ToString()+" "+(gainedStars>1?"stelle":"stella")+"! Sono diventato il Re dei Suoni!";
+                reSceneButton.gameObject.SetActive(true);
+                omSceneButton.gameObject.SetActive(false);
+                gbSceneButton.gameObject.SetActive(false);
             } else {
                 if (_levelCurrentScore > 4) {
                     puppetStatus = 1;
@@ -479,7 +488,7 @@ public class train_move : MonoBehaviour
 
 
     public void OpenCastle() {
-        StartCoroutine(CorutineOpenMenu());
+        StartCoroutine(CorutineOpenCastle());
     }
     IEnumerator CorutineOpenCastle() {
         yield return new WaitForSeconds(1);
