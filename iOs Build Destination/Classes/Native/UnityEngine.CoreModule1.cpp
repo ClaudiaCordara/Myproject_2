@@ -14082,6 +14082,15 @@ public:
 };
 
 
+// UnityEngine.SkinnedMeshRenderer
+struct SkinnedMeshRenderer_t126F4D6010E0F4B2685A7817B0A9171805D8F496  : public Renderer_t58147AB5B00224FE1460FD47542DC0DA7EC9378C
+{
+public:
+
+public:
+};
+
+
 // UnityEngine.SpriteRenderer
 struct SpriteRenderer_t3F35AD5498243C170B46F5FFDB582AAEF78615EF  : public Renderer_t58147AB5B00224FE1460FD47542DC0DA7EC9378C
 {
@@ -21765,6 +21774,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ShaderTagId__cctor_mDC50E07281EFBA6C8517
 		return;
 	}
 }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif

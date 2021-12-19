@@ -39,6 +39,7 @@
 		<type fullname="UnityEngine.RectTransform" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.LightmapSettings" preserve="nothing"/>
+		<type fullname="UnityEngine.SkinnedMeshRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.Collider" preserve="nothing"/>
 		<type fullname="UnityEngine.MeshCollider" preserve="nothing"/>
 		<type fullname="UnityEngine.BoxCollider" preserve="nothing"/>
@@ -48,6 +49,8 @@
 		<type fullname="UnityEngine.TerrainLayer" preserve="nothing"/>
 		<type fullname="UnityEngine.TerrainData" preserve="nothing"/>
 		<type fullname="UnityEngine.Terrain" preserve="nothing"/>
+		<type fullname="UnityEngine.ParticleSystemRenderer" preserve="nothing"/>
+		<type fullname="UnityEngine.ParticleSystem" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="CreditsScript" preserve="nothing"/>
@@ -55,9 +58,13 @@
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="LevelsScript" preserve="nothing"/>
 		<type fullname="MainMenu" preserve="nothing"/>
+		<type fullname="PathCreation.Examples.PathFollower" preserve="nothing"/>
 		<type fullname="PathCreation.Examples.RoadMeshCreator" preserve="nothing"/>
 		<type fullname="audioManager" preserve="nothing"/>
 		<type fullname="cam_move" preserve="nothing"/>
+		<type fullname="cam_move_castle" preserve="nothing"/>
+		<type fullname="castelloScript" preserve="nothing"/>
+		<type fullname="train_castle" preserve="nothing"/>
 		<type fullname="train_move" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="PathCreator">

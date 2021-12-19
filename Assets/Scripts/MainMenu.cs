@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour {
         PlayerPrefs.SetInt("GameShouldHideTutorial", 0); 
         
 
-        PlayerPrefs.SetInt("GameTotalStars", 29);
+        //PlayerPrefs.SetInt("GameTotalStars", 29);
         if (PlayerPrefs.GetInt("GameTotalStars") > 30) {
             GameObject.Find("PrincipeImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeN1");
             GameObject.Find("PrincipeOptionsImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("QPrincipeI1");
